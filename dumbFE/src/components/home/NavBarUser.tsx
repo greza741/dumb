@@ -17,24 +17,22 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon, AddIcon } from "@chakra-ui/icons";
-import logo2 from "../../assets/Frame@3x.svg";
+import { useState } from "react";
+import logo2 from "@/assets/Frame@3x.svg";
+import { Register } from "@/pages/register";
+import { Login } from "@/pages/login";
+import { Product } from "./product";
 
-interface Props {
-  children: React.ReactNode;
-}
-
-const Links = [
-  { name: "Complain", url: "/login" },
-  { name: "Profile", url: "/register" },
-  { name: "Logout", url: "/test" },
-];
+const Links = ["Complain", "Profile", "Logout"];
 
 const NavLink = ({
   children,
-  href,
+  isActive,
+  onClick,
 }: {
   children: React.ReactNode;
-  href: string;
+  isActive: boolean;
+  onClick: () => void;
 }) => {
   return (
     <Box
@@ -44,17 +42,23 @@ const NavLink = ({
       rounded={"md"}
       _hover={{
         textDecoration: "none",
-        bg: "brand.background",
+        bg: useColorModeValue("gray.200", "gray.700"),
       }}
-      href={href}
+      color={isActive ? "orange.500" : "inherit"}
+      onClick={onClick}
     >
       {children}
     </Box>
   );
 };
 
-export default function NavUser() {
+export default function NavTest() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [activeLink, setActiveLink] = useState("");
+
+  const handleLinkClick = (link: string) => {
+    setActiveLink(link);
+  };
 
   return (
     <>
@@ -68,7 +72,14 @@ export default function NavUser() {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={"center"}>
-            <Image src={logo2} alt="logo" w={"50px"} />
+            <Button
+              as={"a"}
+              href={"/"}
+              background={"transparent"}
+              _hover={{ bg: "transparent" }}
+            >
+              <Image src={logo2} alt="logo" w={"50px"} />
+            </Button>
           </HStack>
           <Flex alignItems={"center"}>
             <HStack
@@ -77,8 +88,12 @@ export default function NavUser() {
               display={{ base: "none", md: "flex" }}
             >
               {Links.map((link) => (
-                <NavLink key={link.name} href={link.url}>
-                  {link.name}
+                <NavLink
+                  key={link}
+                  isActive={activeLink === link}
+                  onClick={() => handleLinkClick(link)}
+                >
+                  {link}
                 </NavLink>
               ))}
             </HStack>
@@ -111,13 +126,28 @@ export default function NavUser() {
           <Box pb={4} display={{ md: "none" }}>
             <Stack as={"nav"} spacing={4}>
               {Links.map((link) => (
-                <NavLink key={link.name} href={link.url}>
-                  {link.name}
+                <NavLink
+                  key={link}
+                  isActive={activeLink === link}
+                  onClick={() => handleLinkClick(link)}
+                >
+                  {link}
                 </NavLink>
               ))}
             </Stack>
           </Box>
         ) : null}
+      </Box>
+      <Box>
+        {activeLink === "Complain" && <Login />}
+        {activeLink === "Profile" && <Register />}
+        {activeLink === "Logout" && <Product />}
+        {activeLink === "" && (
+          <Box>
+            <Product />
+          </Box>
+        )}{" "}
+        {/* Default message */}
       </Box>
     </>
   );

@@ -7,8 +7,17 @@ import {
 import { Login } from "../pages/login";
 import { Register } from "../pages/register";
 import { Home } from "../pages/home";
+import NavTest from "../components/home/test";
 
 const routes: RouteObject[] = [
+  {
+    path: "/",
+    element: <Home />,
+  },
+  // {
+  //   path: "/test",
+  //   element: <NavTest />,
+  // },
   {
     path: "/register",
     element: <Register />,
@@ -16,10 +25,6 @@ const routes: RouteObject[] = [
   {
     path: "/login",
     element: <Login />,
-  },
-  {
-    path: "/test",
-    element: <Home />,
   },
   {
     path: "*",

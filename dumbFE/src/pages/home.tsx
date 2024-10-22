@@ -6,7 +6,6 @@ export function Home() {
   return (
     <Box bg={"brand.background"} h={"100vh"} w={"100vw"}>
       <NavUser />
-      <Product />
     </Box>
   );
 }

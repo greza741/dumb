@@ -1,6 +1,6 @@
 import { Box } from "@chakra-ui/react";
-import { Brand } from "../components/auth/brand";
-import { RegisterForm } from "../components/auth/register";
+import { Brand } from "@/components/auth/brand";
+import { RegisterForm } from "@/components/auth/register";
 
 export function Register() {
   return (

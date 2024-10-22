@@ -2,7 +2,12 @@ import { Box, Image, Text } from "@chakra-ui/react";
 
 export function Product() {
   return (
-    <Box color={"#F74C4C"} paddingLeft={"50px"}>
+    <Box
+      color={"#F74C4C"}
+      paddingLeft={"50px"}
+      bgColor={"brand.background"}
+      h={"100vh"}
+    >
       <Box padding={"30px 0px 20px 0px"}>Products</Box>
       <Box display={"flex"} flexDirection={"row"} gap={"20px"}>
         <Box border={"1px solid #202021"} bg={"#202021"} borderRadius={"5px"}>
