@@ -1,4 +1,6 @@
-import { Box } from "@chakra-ui/react";
+import { Complain } from "@/components/home/NavComp/complain/complain";
+import { Product } from "@/components/home/NavComp/product/product";
+import { Box, Text } from "@chakra-ui/react";
 import {
   createBrowserRouter,
   RouteObject,
@@ -6,18 +8,70 @@ import {
 } from "react-router-dom";
 import { Login } from "../pages/login";
 import { Register } from "../pages/register";
-import { Home } from "../pages/home";
-import NavTest from "../components/home/test";
+import { UserLayout } from "@/layout/user-layout";
+import { AdminLayout } from "@/layout/admin-layout";
+import { ProductAdmin } from "@/components/home/NavComp/product/productAdmin";
+import { ComplainAdmin } from "@/components/home/NavComp/complain/complainAdmin";
+import { Profile } from "@/components/home/NavComp/profile/profile";
+import { Detail } from "@/components/home/NavComp/detail/detail";
 
 const routes: RouteObject[] = [
   {
     path: "/",
-    element: <Home />,
+    element: <UserLayout />,
+    children: [
+      {
+        index: true,
+        element: <Product />,
+      },
+      {
+        path: "complain",
+        element: <Complain />,
+      },
+      {
+        path: "profile",
+        element: <Profile />,
+      },
+      {
+        path: "logout",
+        element: <Box>Logout</Box>,
+      },
+    ],
+  },
+  {
+    path: "/admin",
+    element: <AdminLayout />,
+    children: [
+      {
+        index: true,
+        element: <Product />,
+      },
+      {
+        path: "complain",
+        element: <ComplainAdmin />,
+      },
+      {
+        path: "category",
+        element: <Box>category</Box>,
+      },
+      {
+        path: "product",
+        element: <ProductAdmin />,
+      },
+      {
+        path: "logout",
+        element: <Box>Logout</Box>,
+      },
+    ],
   },
   // {
   //   path: "/test",
-  //   element: <NavTest />,
+  //   element: <Test />,
   // },
+  {
+    path: "/detail",
+    element: <Detail />,
+  },
   {
     path: "/register",
     element: <Register />,

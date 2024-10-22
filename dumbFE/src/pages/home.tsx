@@ -1,6 +1,5 @@
 import { Box } from "@chakra-ui/react";
-import NavUser from "../components/home/NavBarUser";
-import { Product } from "../components/home/product";
+import NavUser from "../components/home/home-user";
 
 export function Home() {
   return (

@@ -1,6 +1,6 @@
 import { Box, Image, Text } from "@chakra-ui/react";
 
-export function Product() {
+export function ProductAdmin() {
   return (
     <Box
       color={"#F74C4C"}

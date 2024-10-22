@@ -6,6 +6,7 @@ const themeConfig: ThemeOverride = {
       orange: "#F74C4C",
       background: "#0B0B0B",
       background2: "#262626",
+      background3: "#303131",
       "green-disabled": "#005E0E",
     },
   },
