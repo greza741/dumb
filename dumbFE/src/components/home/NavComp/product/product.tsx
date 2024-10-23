@@ -1,4 +1,12 @@
-import { Box, Grid, GridItem, Image, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Grid,
+  GridItem,
+  Image,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 
 export function Product() {
   return (
@@ -6,9 +14,10 @@ export function Product() {
       color={"#F74C4C"}
       paddingLeft={"50px"}
       bgColor={"brand.background"}
-      h={"full"}
+      h={"100%"}
     >
       <Box padding={"30px 0px 20px 0px"}>Products</Box>
+
       <Grid
         templateColumns={"repeat(4, 1fr)"}
         gridGap={"20px"}

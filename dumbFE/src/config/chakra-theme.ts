@@ -15,6 +15,14 @@ const themeConfig: ThemeOverride = {
     body: '"Plus Jakarta Sans", sans-serif',
     mono: '"Plus Jakarta Sans", sans-serif',
   },
+  styles: {
+    global: {
+      body: {
+        bg: "brand.background",
+        color: "white",
+      },
+    },
+  },
 };
 
 export const theme = extendTheme(themeConfig satisfies ThemeOverride);

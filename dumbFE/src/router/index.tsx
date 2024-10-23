@@ -14,6 +14,8 @@ import { ProductAdmin } from "@/components/home/NavComp/product/productAdmin";
 import { ComplainAdmin } from "@/components/home/NavComp/complain/complainAdmin";
 import { Profile } from "@/components/home/NavComp/profile/profile";
 import { Detail } from "@/components/home/NavComp/detail/detail";
+import { Category } from "@/components/home/NavComp/category/category";
+import { Test } from "@/components/home/test";
 
 const routes: RouteObject[] = [
   {
@@ -52,7 +54,7 @@ const routes: RouteObject[] = [
       },
       {
         path: "category",
-        element: <Box>category</Box>,
+        element: <Category />,
       },
       {
         path: "product",
@@ -64,10 +66,10 @@ const routes: RouteObject[] = [
       },
     ],
   },
-  // {
-  //   path: "/test",
-  //   element: <Test />,
-  // },
+  {
+    path: "/test",
+    element: <Test />,
+  },
   {
     path: "/detail",
     element: <Detail />,

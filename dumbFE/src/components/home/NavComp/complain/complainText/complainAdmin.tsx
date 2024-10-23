@@ -29,8 +29,8 @@ const Message = ({ text, actor }: MessageProps) => {
 
 export function ComplainAdminChat() {
   return (
-    <Flex h="100vh" py={12}>
-      <Flex flexDirection="column" w="full" m="auto" h="full" roundedTop="lg">
+    <Flex h={"90vh"} py={12}>
+      <Flex flexDirection="column" w="100%" m="auto" h="100%" roundedTop="lg">
         <Stack
           px={4}
           py={8}
@@ -49,6 +49,8 @@ export function ComplainAdminChat() {
             },
           }}
         >
+          <Message text="Hi" actor="user" />
+          <Message text="How may I help you?" actor="bot" />
           <Message text="Hi" actor="user" />
           <Message text="How may I help you?" actor="bot" />
           <Message text="Hi" actor="user" />

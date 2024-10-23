@@ -9,7 +9,7 @@ export function ComplainAdmin() {
       display={"flex"}
       flexDirection={"row"}
       borderTop={"1px solid grey"}
-      h={"100vh"}
+      h={"100%"}
     >
       <Box borderRight={"1px solid grey"} w={"500px"}>
         <Box paddingTop={"20px"}>

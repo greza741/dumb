@@ -22,7 +22,7 @@ export function AdminLayout() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Box>
+    <Box h={"100vh"} w={"100vw"}>
       <Box bg={"brand.background"} color={"white"}>
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <IconButton
