@@ -1,9 +1,13 @@
 import * as authService from "../services/auth-service";
-import * as profileService from "../services/profile-service";
+import * as profileService from "../services/user-service";
 import { NextFunction, Request, Response } from "express";
 import { LoginDTO, RegisterDTO } from "../dto/auth-dto";
 
-export async function login(req: Request, res: Response, next: NextFunction) {
+export const login = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const dataUserForLogin = req.body as LoginDTO;
     const token = await authService.login(dataUserForLogin);
@@ -14,7 +18,7 @@ export async function login(req: Request, res: Response, next: NextFunction) {
     const err = error as Error;
     res.status(500).json({ message: err.message });
   }
-}
+};
 
 export const register = async (
   req: Request,
@@ -40,7 +44,7 @@ export const authCheck = async (
 ) => {
   try {
     const user = res.locals.user;
-    const profile = await profileService.getProfile(user.name);
+    const profile = await profileService.getUser(user.name);
 
     res.json(profile);
   } catch (error) {

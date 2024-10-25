@@ -16,6 +16,7 @@ import { Profile } from "@/components/home/NavComp/profile/profile";
 import { Detail } from "@/components/home/NavComp/detail/detail";
 import { Category } from "@/components/home/NavComp/category/category";
 import { Test } from "@/components/home/test";
+import { EditProfile } from "@/components/home/NavComp/profile/edit-profile";
 
 const routes: RouteObject[] = [
   {
@@ -68,7 +69,7 @@ const routes: RouteObject[] = [
   },
   {
     path: "/test",
-    element: <Test />,
+    element: <EditProfile />,
   },
   {
     path: "/detail",

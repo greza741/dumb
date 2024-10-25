@@ -14,17 +14,17 @@ export const createUser = async (regist: RegisterDTO) => {
   });
 };
 
-export const updateUser = async (
-  id: number,
-  regist: Partial<UpdateProfileDTO>
-) => {
-  return await prisma.user.update({
-    where: { id },
-    data: {
-      ...regist,
-    },
-  });
-};
+// export const updateUser = async (
+//   id: number,
+//   update: Partial<UpdateProfileDTO>
+// ) => {
+//   return await prisma.user.update({
+//     where: { id },
+//     data: {
+//       ...update,
+//     },
+//   });
+// };
 
 export const findUser = async (name: string) => {
   return await prisma.user.findFirst({

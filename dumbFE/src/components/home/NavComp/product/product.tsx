@@ -15,6 +15,7 @@ export function Product() {
       paddingLeft={"50px"}
       bgColor={"brand.background"}
       h={"100%"}
+      w={"100%"}
     >
       <Box padding={"30px 0px 20px 0px"}>Products</Box>
 
@@ -22,6 +23,7 @@ export function Product() {
         templateColumns={"repeat(4, 1fr)"}
         gridGap={"20px"}
         columnGap={"20px"}
+        w={"100%"}
       >
         <GridItem w={"100%"}>
           <Box border={"1px solid #202021"} bg={"#202021"} borderRadius={"5px"}>
