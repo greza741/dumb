@@ -14,20 +14,71 @@ datasource db {
 }
 
 model User {
-  id       Int        @id @default(autoincrement())
-  email    String     @unique
+  id       Int         @id @default(autoincrement())
+  email    String      @unique
   password String
   name     String
   avatar   String?
-  gender   GenderEnum
+  gender   GenderEnum?
   phone    String?
   address  String?
-  role     RoleEnum   @default(USER)
+  product  Product[]
+  order    Order[]
+  role     RoleEnum    @default(USER)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("user")
+}
+
+model Product {
+  id          Int         @id @default(autoincrement())
+  name        String
+  description String
+  image       String?
+  price       Int
+  stock       Int
+  categoryId  Int
+  userId      Int
+  category    Category    @relation(fields: [categoryId], references: [id])
+  user        User        @relation(fields: [userId], references: [id])
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  OrderItem   OrderItem[]
+
+  @@map("product")
+}
+
+model Category {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  products Product[]
+
+  @@map("category")
+}
+
+model Order {
+  id         Int         @id @default(autoincrement())
+  userId     Int
+  total      Int
+  createdAt  DateTime    @default(now())
+  user       User        @relation(fields: [userId], references: [id])
+  orderItems OrderItem[]
+
+  @@map("order")
+}
+
+model OrderItem {
+  id        Int     @id @default(autoincrement())
+  orderId   Int
+  productId Int
+  quantity  Int
+  price     Int
+  order     Order   @relation(fields: [orderId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
+
+  @@map("orderItem")
 }
 
 enum RoleEnum {

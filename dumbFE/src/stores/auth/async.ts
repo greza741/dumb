@@ -49,12 +49,14 @@ export const checkAuthAsync = createAsyncThunk<
   try {
     const token = localStorage.getItem("token");
     if (!token) {
-      return thunkAPI.rejectWithValue("Unauthorized");
+      return thunkAPI.rejectWithValue("");
     }
     const res = await api.get("/auth/check");
     if (!res.data) {
       return thunkAPI.rejectWithValue("Unauthorized");
     }
+    console.log("data user", res.data);
+
     return {
       user: res.data,
       token: token,

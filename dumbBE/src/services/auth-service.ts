@@ -26,6 +26,8 @@ export const login = async (login: LoginDTO) => {
       expiresIn: "1d",
     }
   );
+  // const { password, ...userLogin } = user;
+
   return token;
 };
 

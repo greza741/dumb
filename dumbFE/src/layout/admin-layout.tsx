@@ -1,5 +1,6 @@
 import logo2 from "@/assets/Frame@3x.svg";
 import ContainerNavAdmin from "@/components/home/NavComp/admin/container-nav";
+import { useAppSelector } from "@/stores";
 import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 import {
   Avatar,
@@ -17,9 +18,15 @@ import {
   Stack,
   useDisclosure,
 } from "@chakra-ui/react";
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 export function AdminLayout() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const authState = useAppSelector((state) => state.auth);
+
+  if (authState.token) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <Box h={"100vh"} w={"100vw"}>

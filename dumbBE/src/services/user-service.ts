@@ -3,8 +3,8 @@ import uploader from "../libs/cloudinary";
 import { prisma } from "../libs/prisma";
 import * as userRepo from "../repositories/user-repo";
 
-export const getUser = async (name: string) => {
-  return userRepo.findUser(name);
+export const getUser = async (email: string) => {
+  return userRepo.findUser(email);
 };
 
 export const updateServices = async (

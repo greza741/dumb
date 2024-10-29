@@ -17,6 +17,7 @@ import { Detail } from "@/components/home/NavComp/detail/detail";
 import { Category } from "@/components/home/NavComp/category/category";
 import { Test } from "@/components/home/test";
 import { EditProfile } from "@/components/home/NavComp/profile/edit-profile";
+import AuthLayout from "@/layout/auth-layout";
 
 const routes: RouteObject[] = [
   {
@@ -68,6 +69,19 @@ const routes: RouteObject[] = [
     ],
   },
   {
+    element: <AuthLayout />,
+    children: [
+      {
+        path: "/register",
+        element: <Register />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+    ],
+  },
+  {
     path: "/test",
     element: <EditProfile />,
   },
@@ -75,14 +89,7 @@ const routes: RouteObject[] = [
     path: "/detail",
     element: <Detail />,
   },
-  {
-    path: "/register",
-    element: <Register />,
-  },
-  {
-    path: "/login",
-    element: <Login />,
-  },
+
   {
     path: "*",
     element: <Box>404</Box>,

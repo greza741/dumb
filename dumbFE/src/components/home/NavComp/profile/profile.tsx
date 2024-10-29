@@ -1,8 +1,11 @@
 import { Box, Image, Text } from "@chakra-ui/react";
 import logo2 from "@/assets/Frame@3x.svg";
 import { MyTransaction } from "./myTransaction";
+import { useAppSelector } from "@/stores";
 
 export function Profile() {
+  const data = useAppSelector((state) => state.auth.token.userLogin);
+
   return (
     <Box
       h={"100%"}
@@ -34,7 +37,7 @@ export function Profile() {
           <Text fontWeight={"bold"} color={"brand.orange"}>
             Name
           </Text>
-          <Text>Jarwo</Text>
+          <Text>{data?.name}</Text>
         </Box>
         <Box paddingTop={"15px"}>
           <Text fontWeight={"bold"} color={"brand.orange"}>

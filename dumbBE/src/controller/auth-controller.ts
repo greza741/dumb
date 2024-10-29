@@ -44,7 +44,7 @@ export const authCheck = async (
 ) => {
   try {
     const user = res.locals.user;
-    const profile = await profileService.getUser(user.name);
+    const profile = await profileService.getUser(user.email);
 
     res.json(profile);
   } catch (error) {
