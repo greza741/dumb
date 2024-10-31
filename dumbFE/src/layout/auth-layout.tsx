@@ -1,11 +1,12 @@
 import { useAppSelector } from "@/stores";
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 
 const AuthLayout = () => {
   const authState = useAppSelector((state) => state.auth);
+  const location = useLocation();
 
   if (authState.token) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/" state={{ from: location }} replace />;
   }
   return <Outlet />;
 };

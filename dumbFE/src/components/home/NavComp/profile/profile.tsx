@@ -1,11 +1,14 @@
-import { Box, Image, Text } from "@chakra-ui/react";
-import logo2 from "@/assets/Frame@3x.svg";
-import { MyTransaction } from "./myTransaction";
 import { useAppSelector } from "@/stores";
+import { Box, Button, Image, Text, useDisclosure } from "@chakra-ui/react";
+import { MyTransaction } from "./myTransaction";
+import EditProfileModal from "./edit-profile-modal";
+import React from "react";
 
 export function Profile() {
-  const data = useAppSelector((state) => state.auth.token.userLogin);
-
+  const { user } = useAppSelector((state) => state.auth);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const initialRef = React.useRef(null);
+  const finalRef = React.useRef(null);
   return (
     <Box
       h={"100%"}
@@ -25,48 +28,52 @@ export function Profile() {
         </Text>
         <Image
           h={"400px"}
-          w={"300px"}
-          objectFit={"fill"}
-          src="https://picsum.photos/200"
-          alt="profile"
+          w={"500px"}
+          objectFit={"contain"}
+          src={user?.avatar}
+          alt="avatar"
+        />
+        <Button bgColor={"brand.background"} color={"white"} onClick={onOpen}>
+          Edit Profile
+        </Button>
+        <EditProfileModal
+          isOpen={isOpen}
+          onClose={onClose}
+          initialRef={initialRef}
+          finalRef={finalRef}
         />
       </Box>
 
-      <Box paddingLeft={"50px"} fontSize={"17px"} w={"400px"}>
+      <Box paddingLeft={"50px"} fontSize={"17px"} w={"200px"}>
         <Box paddingTop={"60px"}>
           <Text fontWeight={"bold"} color={"brand.orange"}>
             Name
           </Text>
-          <Text>{data?.name}</Text>
+          <Text>{user?.name || "asdasd"}</Text>
         </Box>
         <Box paddingTop={"15px"}>
           <Text fontWeight={"bold"} color={"brand.orange"}>
             Email
           </Text>
-          <Text>jarwo@gmail.com</Text>
+          <Text>{user?.email}</Text>
         </Box>
         <Box paddingTop={"15px"}>
           <Text fontWeight={"bold"} color={"brand.orange"}>
             Phone
           </Text>
-          <Text>085444222111</Text>
+          <Text>{user?.phone}</Text>
         </Box>
         <Box paddingTop={"15px"}>
           <Text fontWeight={"bold"} color={"brand.orange"}>
             Gender
           </Text>
-          <Text>Transgender</Text>
+          <Text>{user?.gender}</Text>
         </Box>
         <Box paddingTop={"15px"}>
           <Text fontWeight={"bold"} color={"brand.orange"}>
-            Addres
+            Address
           </Text>
-          <Text>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ratione
-            sint voluptas, repellat aspernatur dolorem impedit atque reiciendis
-            facere expedita excepturi suscipit aliquam repudiandae ipsam
-            repellendus at maiores nesciunt, perspiciatis ad?
-          </Text>
+          <Text>{user?.address}</Text>
         </Box>
       </Box>
       <Box paddingLeft={"400px"} w={"70%"}>

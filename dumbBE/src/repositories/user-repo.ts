@@ -26,9 +26,9 @@ export const createUser = async (regist: RegisterDTO) => {
 //   });
 // };
 
-export const findUser = async (name: string) => {
+export const findUser = async (email: string) => {
   return await prisma.user.findFirst({
-    where: { name },
+    where: { email },
     select: {
       id: true,
       email: true,
@@ -37,6 +37,7 @@ export const findUser = async (name: string) => {
       gender: true,
       phone: true,
       address: true,
+      role: true,
     },
   });
 };

@@ -72,7 +72,7 @@ export function ProductTable() {
                 </Td>
                 <Td>Mouse</Td>
                 <Td>
-                  {/* nanti danti productDescription dengan deskripsi database */}
+                  {/* nanti ganti productDescription dengan deskripsi database */}
                   {productDescription.length > maxDescriptionLength
                     ? productDescription.substring(0, maxDescriptionLength) +
                       "..."

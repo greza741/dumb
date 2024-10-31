@@ -1,7 +1,7 @@
 import { Router } from "express";
 import * as productController from "../controller/product-controller";
 import { authentication } from "../middlewares/authentication";
-import upload from "../middleware/uploadFile";
+import upload from "../middlewares/uploadFile";
 import { parseIntegers } from "../middlewares/parseIntProduct";
 
 const productRoute = Router();

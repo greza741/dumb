@@ -1,6 +1,15 @@
+import { Category } from "@/components/home/NavComp/category/category";
 import { Complain } from "@/components/home/NavComp/complain/complain";
+import { ComplainAdmin } from "@/components/home/NavComp/complain/complainAdmin";
+import { Detail } from "@/components/home/NavComp/detail/detail";
 import { Product } from "@/components/home/NavComp/product/product";
-import { Box, Text } from "@chakra-ui/react";
+import { ProductAdmin } from "@/components/home/NavComp/product/productAdmin";
+import { Profile } from "@/components/home/NavComp/profile/profile";
+import { Test } from "@/components/home/test";
+import { AdminLayout } from "@/layout/admin-layout";
+import AuthLayout from "@/layout/auth-layout";
+import { UserLayout } from "@/layout/user-layout";
+import { Box } from "@chakra-ui/react";
 import {
   createBrowserRouter,
   RouteObject,
@@ -8,16 +17,6 @@ import {
 } from "react-router-dom";
 import { Login } from "../pages/login";
 import { Register } from "../pages/register";
-import { UserLayout } from "@/layout/user-layout";
-import { AdminLayout } from "@/layout/admin-layout";
-import { ProductAdmin } from "@/components/home/NavComp/product/productAdmin";
-import { ComplainAdmin } from "@/components/home/NavComp/complain/complainAdmin";
-import { Profile } from "@/components/home/NavComp/profile/profile";
-import { Detail } from "@/components/home/NavComp/detail/detail";
-import { Category } from "@/components/home/NavComp/category/category";
-import { Test } from "@/components/home/test";
-import { EditProfile } from "@/components/home/NavComp/profile/edit-profile";
-import AuthLayout from "@/layout/auth-layout";
 
 const routes: RouteObject[] = [
   {
@@ -35,10 +34,6 @@ const routes: RouteObject[] = [
       {
         path: "profile",
         element: <Profile />,
-      },
-      {
-        path: "logout",
-        element: <Box>Logout</Box>,
       },
     ],
   },
@@ -62,10 +57,6 @@ const routes: RouteObject[] = [
         path: "product",
         element: <ProductAdmin />,
       },
-      {
-        path: "logout",
-        element: <Box>Logout</Box>,
-      },
     ],
   },
   {
@@ -83,7 +74,7 @@ const routes: RouteObject[] = [
   },
   {
     path: "/test",
-    element: <EditProfile />,
+    element: <Test />,
   },
   {
     path: "/detail",

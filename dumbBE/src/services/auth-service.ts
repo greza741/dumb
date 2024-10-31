@@ -26,9 +26,9 @@ export const login = async (login: LoginDTO) => {
       expiresIn: "1d",
     }
   );
-  // const { password, ...userLogin } = user;
+  const { password, ...userLogin } = user;
 
-  return token;
+  return { token: token, user: userLogin };
 };
 
 export const register = async (regist: RegisterDTO) => {

@@ -18,14 +18,20 @@ import {
   Stack,
   useDisclosure,
 } from "@chakra-ui/react";
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 export function AdminLayout() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const authState = useAppSelector((state) => state.auth);
+  const location = useLocation();
+  const userRole = useAppSelector((state) => state.auth.user?.role);
+  const token = useAppSelector((state) => state.auth.token);
 
-  if (authState.token) {
-    return <Navigate to="/" replace />;
+  if (!token) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  if (userRole !== "ADMIN") {
+    return <Navigate to="/" state={{ from: location }} replace />;
   }
 
   return (

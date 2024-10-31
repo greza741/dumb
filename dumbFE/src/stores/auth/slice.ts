@@ -1,6 +1,6 @@
-import { IUser } from "@/type/user";
 import { createSlice } from "@reduxjs/toolkit";
 import { cases } from "./cases";
+import { IUser } from "@/type/user";
 
 export interface AuthState {
   user?: IUser;

@@ -7,7 +7,7 @@ const categoryRoute = Router();
 categoryRoute.post("/create", authentication, categoryController.create);
 categoryRoute.get("/", authentication, categoryController.getAll);
 categoryRoute.get("/:id", authentication, categoryController.getById);
-categoryRoute.put("/", authentication, categoryController.update);
+categoryRoute.put("/:id", authentication, categoryController.update);
 categoryRoute.delete("/:id", authentication, categoryController.deleteCategory);
 
 export default categoryRoute;

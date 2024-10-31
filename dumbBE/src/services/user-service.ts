@@ -22,6 +22,6 @@ export const updateServices = async (
     where: { id },
     data: updateData,
   });
-  const { email, password, ...dataUser } = updateUser;
+  const { password, ...dataUser } = updateUser;
   return dataUser;
 };

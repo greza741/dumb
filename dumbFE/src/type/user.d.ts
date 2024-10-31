@@ -6,4 +6,14 @@ export interface IUser {
   gender: string;
   phone: string;
   address: string;
+  role: string;
+}
+
+export interface IUpdateProfileDTO {
+  name?: string;
+  email?: string;
+  avatar?: File;
+  gender?: string;
+  phone?: string;
+  address?: string;
 }

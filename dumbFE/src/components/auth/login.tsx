@@ -9,30 +9,29 @@ import {
   SubmitHandler,
   useForm,
 } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export function LoginForm() {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const { loading } = useAppSelector((state) => state.auth);
   const { control, handleSubmit, reset } = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
   });
 
   const onSubmit: SubmitHandler<LoginSchema> = async (data) => {
-    await dispatch(loginAsync(data));
-
-    reset({
-      email: "",
-      password: "",
-    });
-    navigate("/");
+    const response = await dispatch(loginAsync(data));
+    if (loginAsync.fulfilled.match(response)) {
+      reset({
+        email: "",
+        password: "",
+      });
+    }
   };
 
   const onError: SubmitErrorHandler<LoginSchema> = () => {
     toast.error("User Not Found");
   };
+
   return (
     <>
       <Box p={"125px 0px"}>

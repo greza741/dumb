@@ -1,26 +1,30 @@
+import { useAppDispatch } from "@/stores";
+import { deleteCategoryAsync } from "@/stores/category/async";
+import { Category } from "@/stores/category/slice";
 import {
   Box,
   Button,
-  Flex,
   Stack,
   Table,
-  TableCaption,
   TableContainer,
   Tbody,
   Td,
-  Tfoot,
   Th,
   Thead,
   Tr,
-  useDisclosure,
 } from "@chakra-ui/react";
-import React from "react";
-import CategoryModal from "./category-modal";
 
-export function TableCategory() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const initialRef = React.useRef(null);
-  const finalRef = React.useRef(null);
+export function TableCategory({
+  categories,
+  onEdit,
+}: {
+  categories: Category[];
+  onEdit: (category: Category) => void;
+}) {
+  const dispatch = useAppDispatch();
+  const handleDelete = (id: number) => {
+    dispatch(deleteCategoryAsync(id));
+  };
   return (
     <Box h={"100%"} w={"100%"} bgColor={"brand.background"} color={"white"}>
       <TableContainer>
@@ -53,127 +57,34 @@ export function TableCategory() {
               </Tr>
             </Thead>
             <Tbody>
-              <Tr>
-                <Td>1</Td>
-                <Td>Mouse</Td>
-                <Td>
-                  <Box>
-                    <Button
-                      marginRight={"15px"}
-                      color={"white"}
-                      bgColor={"#56C05A"}
-                      p={"0px 50px"}
-                      onClick={onOpen}
-                    >
-                      Edit
-                    </Button>
-                    <CategoryModal
-                      isOpen={isOpen}
-                      onClose={onClose}
-                      initialRef={initialRef}
-                      finalRef={finalRef}
-                    />
-                    <Button color={"white"} bgColor={"#F74C4C"} p={"0px 45px"}>
-                      Delete
-                    </Button>
-                  </Box>
-                </Td>
-              </Tr>
-              <Tr>
-                <Td>1</Td>
-                <Td>Mouse</Td>
-                <Td>
-                  <Box>
-                    <Button
-                      marginRight={"15px"}
-                      color={"white"}
-                      bgColor={"#56C05A"}
-                      p={"0px 50px"}
-                    >
-                      Edit
-                    </Button>
-                    <Button color={"white"} bgColor={"#F74C4C"} p={"0px 45px"}>
-                      Delete
-                    </Button>
-                  </Box>
-                </Td>
-              </Tr>
-              <Tr>
-                <Td>1</Td>
-                <Td>Mouse</Td>
-                <Td>
-                  <Box>
-                    <Button
-                      marginRight={"15px"}
-                      color={"white"}
-                      bgColor={"#56C05A"}
-                      p={"0px 50px"}
-                    >
-                      Edit
-                    </Button>
-                    <Button color={"white"} bgColor={"#F74C4C"} p={"0px 45px"}>
-                      Delete
-                    </Button>
-                  </Box>
-                </Td>
-              </Tr>
-              <Tr>
-                <Td>1</Td>
-                <Td>Mouse</Td>
-                <Td>
-                  <Box>
-                    <Button
-                      marginRight={"15px"}
-                      color={"white"}
-                      bgColor={"#56C05A"}
-                      p={"0px 50px"}
-                    >
-                      Edit
-                    </Button>
-                    <Button color={"white"} bgColor={"#F74C4C"} p={"0px 45px"}>
-                      Delete
-                    </Button>
-                  </Box>
-                </Td>
-              </Tr>
-              <Tr>
-                <Td>1</Td>
-                <Td>Mouse</Td>
-                <Td>
-                  <Box>
-                    <Button
-                      marginRight={"15px"}
-                      color={"white"}
-                      bgColor={"#56C05A"}
-                      p={"0px 50px"}
-                    >
-                      Edit
-                    </Button>
-                    <Button color={"white"} bgColor={"#F74C4C"} p={"0px 45px"}>
-                      Delete
-                    </Button>
-                  </Box>
-                </Td>
-              </Tr>
-              <Tr>
-                <Td>1</Td>
-                <Td>Mouse</Td>
-                <Td>
-                  <Box>
-                    <Button
-                      marginRight={"15px"}
-                      color={"white"}
-                      bgColor={"#56C05A"}
-                      p={"0px 50px"}
-                    >
-                      Edit
-                    </Button>
-                    <Button color={"white"} bgColor={"#F74C4C"} p={"0px 45px"}>
-                      Delete
-                    </Button>
-                  </Box>
-                </Td>
-              </Tr>
+              {categories?.map((category: Category, index: number) => (
+                <Tr key={category.id}>
+                  <Td>{index + 1}</Td>
+                  <Td>{category.name}</Td>
+                  <Td>
+                    <Box>
+                      <Button
+                        marginRight={"15px"}
+                        color={"white"}
+                        bgColor={"#56C05A"}
+                        p={"0px 50px"}
+                        onClick={() => onEdit(category)}
+                      >
+                        Edit
+                      </Button>
+
+                      <Button
+                        color={"white"}
+                        bgColor={"#F74C4C"}
+                        p={"0px 45px"}
+                        onClick={() => handleDelete(category.id)}
+                      >
+                        Delete
+                      </Button>
+                    </Box>
+                  </Td>
+                </Tr>
+              ))}
             </Tbody>
             {/* <Tfoot>
               <Tr>

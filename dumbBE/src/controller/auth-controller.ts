@@ -11,7 +11,7 @@ export const login = async (
   try {
     const dataUserForLogin = req.body as LoginDTO;
     const token = await authService.login(dataUserForLogin);
-    res.status(200).json({ token });
+    res.status(200).json(token);
   } catch (error) {
     console.log(error);
 
@@ -44,6 +44,7 @@ export const authCheck = async (
 ) => {
   try {
     const user = res.locals.user;
+
     const profile = await profileService.getUser(user.email);
 
     res.json(profile);

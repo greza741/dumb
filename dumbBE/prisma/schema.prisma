@@ -87,7 +87,7 @@ enum RoleEnum {
 }
 
 enum GenderEnum {
-  Male
-  Felame
-  DemiGod
+  MALE
+  FEMALE
+  DEMIGOD
 }

@@ -15,12 +15,4 @@ export const Navs = [
       active: "brand.orange",
     },
   },
-  {
-    path: "/logout",
-    name: "Logout",
-    color: {
-      inactive: "white",
-      active: "brand.orange",
-    },
-  },
 ];
