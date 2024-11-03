@@ -1,4 +1,3 @@
-// CustomModal.tsx
 import { useAppDispatch, useAppSelector } from "@/stores";
 import { updateCategoryAsync } from "@/stores/category/async";
 import {

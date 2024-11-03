@@ -1,11 +1,24 @@
 import { Request, Response } from "express";
-import * as productService from "../services/product-service";
 import { ProductDTO } from "../dto/product-dto";
+import * as productService from "../services/product-service";
 
 export const create = async (req: Request, res: Response) => {
   try {
     const { name, price, description, image, categoryId, stock, userId } =
       req.body;
+
+    if (
+      !name ||
+      typeof price !== "string" ||
+      typeof description !== "string" ||
+      typeof categoryId !== "string" ||
+      typeof stock !== "string" ||
+      typeof userId !== "string"
+    ) {
+      return res
+        .status(400)
+        .json({ error: "All fields must be provided and valid." });
+    }
 
     const parsedPrice = parseInt(price, 10);
     const parsedCategoryId = parseInt(categoryId, 10);
@@ -32,10 +45,12 @@ export const create = async (req: Request, res: Response) => {
       stock: parsedStock,
       userId: parsedUserId,
     };
+
     const productData = newProduct as ProductDTO;
     const file = req.file as Express.Multer.File;
 
     const product = await productService.createProduct(productData, file);
+
     res.status(201).json(product);
   } catch (error) {
     res.status(500).json({ error: "Failed to create product" });
@@ -65,16 +80,49 @@ export const getById = async (req: Request, res: Response) => {
 
 export const update = async (req: Request, res: Response) => {
   try {
-    const product = await productService.updateProduct(
-      Number(req.params.id),
-      req.body
+    const productId = Number(req.params.id);
+    const { name, price, description, categoryId, stock } = req.body;
+    console.log("req.body", req.body);
+
+    if (name !== undefined && typeof name !== "string") {
+      return res.status(400).json({ error: "Name must be a string." });
+    }
+
+    if (price !== undefined && typeof price !== "string") {
+      return res.status(400).json({ error: "Price must be a string." });
+    }
+
+    if (categoryId !== undefined && typeof categoryId !== "string") {
+      return res.status(400).json({ error: "Category ID must be a string." });
+    }
+
+    if (stock !== undefined && typeof stock !== "string") {
+      return res.status(400).json({ error: "Stock must be a string." });
+    }
+
+    const updatedData: Partial<ProductDTO> = {};
+
+    if (name) updatedData.name = name;
+    if (price) updatedData.price = parseInt(price, 10);
+    if (description) updatedData.description = description;
+    if (categoryId) updatedData.categoryId = parseInt(categoryId, 10);
+    if (stock) updatedData.stock = parseInt(stock, 10);
+
+    const file = req.file as Express.Multer.File;
+
+    console.log("updatedProduct", file);
+    const updatedProduct = await productService.updateProduct(
+      productId,
+      updatedData,
+      file
     );
-    res.json(product);
+
+    res.json(updatedProduct);
   } catch (error) {
+    console.error("Update error:", error);
     res.status(500).json({ error: "Failed to update product" });
   }
 };
-
 export const deleteProduct = async (req: Request, res: Response) => {
   try {
     await productService.deleteProduct(Number(req.params.id));

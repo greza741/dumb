@@ -1,32 +1,48 @@
+import { useAppDispatch } from "@/stores";
+import {
+  deleteProductAsync,
+  getAllProductsAsync,
+} from "@/stores/product/async";
+import { Product } from "@/stores/product/slice";
 import {
   Box,
   Button,
-  Flex,
-  Link,
+  Image,
   Stack,
   Table,
-  TableCaption,
   TableContainer,
   Tbody,
   Td,
-  Tfoot,
   Th,
   Thead,
   Tr,
   useDisclosure,
 } from "@chakra-ui/react";
 import React from "react";
-import ProductModal from "./product-modal-admin";
+import EditProductModal from "./edit-product-modal-admin";
+import { useNavigate } from "react-router-dom";
 
-export function ProductTable() {
+export function ProductTable({ products }: { products: Product[] }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [selectedProduct, setSelectedProduct] = React.useState<Product>();
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
-  const productDescription =
-    "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eos odio amet beatae. Eius assumenda dicta vitae ad, accusamus inventore magni quae porro laborum nihil atque aspernatur suscipit nobis dolore voluptatem?";
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const handleEdit = (product: Product) => {
+    // setSelectedProduct(product); // Set produk yang dipilih ke state
+    // onOpen(); // Buka modal
 
-  // Tentukan panjang maksimal deskripsi yang ingin ditampilkan
-  const maxDescriptionLength = 25;
+    navigate(`edit/${product.id}`);
+  };
+  const onProductUpdate = async () => {
+    await dispatch(getAllProductsAsync()); // Refresh produk setelah update
+  };
+
+  const handleDelete = async (id: number) => {
+    await dispatch(deleteProductAsync(id));
+  };
+
   return (
     <Box h={"100%"} w={"100%"} bgColor={"brand.background"} color={"white"}>
       <TableContainer>
@@ -63,217 +79,59 @@ export function ProductTable() {
               </Tr>
             </Thead>
             <Tbody>
-              <Tr>
-                <Td>1</Td>
-                <Td>
-                  <Link href="https://google.com" textDecoration={"underline"}>
-                    Google.com
-                  </Link>
-                </Td>
-                <Td>Mouse</Td>
-                <Td>
-                  {/* nanti ganti productDescription dengan deskripsi database */}
-                  {productDescription.length > maxDescriptionLength
-                    ? productDescription.substring(0, maxDescriptionLength) +
-                      "..."
-                    : productDescription}
-                </Td>
-                <Td>100.000</Td>
-                <Td>600</Td>
-                <Td>
-                  {" "}
-                  <Box>
-                    <Button
-                      marginRight={"15px"}
-                      color={"white"}
-                      bgColor={"#56C05A"}
-                      p={"0px 50px"}
-                      onClick={onOpen}
-                    >
-                      Edit
-                    </Button>
-                    <ProductModal
-                      isOpen={isOpen}
-                      onClose={onClose}
-                      initialRef={initialRef}
-                      finalRef={finalRef}
+              {products?.map((product: Product, index: number) => (
+                <Tr key={product.id}>
+                  <Td>{index + 1}</Td>
+                  <Td>
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      objectFit={"cover"}
+                      w={"50px"}
+                      h={"50px"}
                     />
-                    <Button color={"white"} bgColor={"#F74C4C"} p={"0px 45px"}>
-                      Delete
-                    </Button>
-                  </Box>
-                </Td>
-              </Tr>
-              <Tr>
-                <Td>1</Td>
-                <Td>
-                  <Link href="https://google.com" textDecoration={"underline"}>
-                    Google.com
-                  </Link>
-                </Td>
-                <Td>Mouse</Td>
-                <Td>
-                  {/* nanti danti productDescription dengan deskripsi database */}
-                  {productDescription.length > maxDescriptionLength
-                    ? productDescription.substring(0, maxDescriptionLength) +
-                      "..."
-                    : productDescription}
-                </Td>
-                <Td>100.000</Td>
-                <Td>600</Td>
-                <Td>
-                  {" "}
-                  <Box>
-                    <Button
-                      marginRight={"15px"}
-                      color={"white"}
-                      bgColor={"#56C05A"}
-                      p={"0px 50px"}
-                    >
-                      Edit
-                    </Button>
-                    <Button color={"white"} bgColor={"#F74C4C"} p={"0px 45px"}>
-                      Delete
-                    </Button>
-                  </Box>
-                </Td>
-              </Tr>
-              <Tr>
-                <Td>1</Td>
-                <Td>
-                  <Link href="https://google.com" textDecoration={"underline"}>
-                    Google.com
-                  </Link>
-                </Td>
-                <Td>Mouse</Td>
-                <Td>
-                  {/* nanti danti productDescription dengan deskripsi database */}
-                  {productDescription.length > maxDescriptionLength
-                    ? productDescription.substring(0, maxDescriptionLength) +
-                      "..."
-                    : productDescription}
-                </Td>
-                <Td>100.000</Td>
-                <Td>600</Td>
-                <Td>
-                  {" "}
-                  <Box>
-                    <Button
-                      marginRight={"15px"}
-                      color={"white"}
-                      bgColor={"#56C05A"}
-                      p={"0px 50px"}
-                    >
-                      Edit
-                    </Button>
-                    <Button color={"white"} bgColor={"#F74C4C"} p={"0px 45px"}>
-                      Delete
-                    </Button>
-                  </Box>
-                </Td>
-              </Tr>
-              <Tr>
-                <Td>1</Td>
-                <Td>
-                  <Link href="https://google.com" textDecoration={"underline"}>
-                    Google.com
-                  </Link>
-                </Td>
-                <Td>Mouse</Td>
-                <Td>
-                  {/* nanti danti productDescription dengan deskripsi database */}
-                  {productDescription.length > maxDescriptionLength
-                    ? productDescription.substring(0, maxDescriptionLength) +
-                      "..."
-                    : productDescription}
-                </Td>
-                <Td>100.000</Td>
-                <Td>600</Td>
-                <Td>
-                  {" "}
-                  <Box>
-                    <Button
-                      marginRight={"15px"}
-                      color={"white"}
-                      bgColor={"#56C05A"}
-                      p={"0px 50px"}
-                    >
-                      Edit
-                    </Button>
-                    <Button color={"white"} bgColor={"#F74C4C"} p={"0px 45px"}>
-                      Delete
-                    </Button>
-                  </Box>
-                </Td>
-              </Tr>
-              <Tr>
-                <Td>1</Td>
-                <Td>
-                  <Link href="https://google.com" textDecoration={"underline"}>
-                    Google.com
-                  </Link>
-                </Td>
-                <Td>Mouse</Td>
-                <Td>
-                  {/* nanti danti productDescription dengan deskripsi database */}
-                  {productDescription.length > maxDescriptionLength
-                    ? productDescription.substring(0, maxDescriptionLength) +
-                      "..."
-                    : productDescription}
-                </Td>
-                <Td>100.000</Td>
-                <Td>600</Td>
-                <Td>
-                  {" "}
-                  <Box>
-                    <Button
-                      marginRight={"15px"}
-                      color={"white"}
-                      bgColor={"#56C05A"}
-                      p={"0px 50px"}
-                    >
-                      Edit
-                    </Button>
-                    <Button color={"white"} bgColor={"#F74C4C"} p={"0px 45px"}>
-                      Delete
-                    </Button>
-                  </Box>
-                </Td>
-              </Tr>
-              <Tr>
-                <Td>1</Td>
-                <Td>
-                  <Link href="https://google.com" textDecoration={"underline"}>
-                    Google.com
-                  </Link>
-                </Td>
-                <Td>Mouse</Td>
-                <Td>
-                  {/* nanti danti productDescription dengan deskripsi database */}
-                  {productDescription.length > maxDescriptionLength
-                    ? productDescription.substring(0, maxDescriptionLength) +
-                      "..."
-                    : productDescription}
-                </Td>
-                <Td>100.000</Td>
-                <Td>600</Td>
-                <Td>
-                  {" "}
-                  <Box>
-                    <Button
-                      marginRight={"15px"}
-                      color={"white"}
-                      bgColor={"#56C05A"}
-                      p={"0px 50px"}
-                    >
-                      Edit
-                    </Button>
-                    <Button color={"white"} bgColor={"#F74C4C"} p={"0px 45px"}>
-                      Delete
-                    </Button>
-                  </Box>
-                </Td>
-              </Tr>
+                  </Td>
+                  <Td>{product.name}</Td>
+                  <Td>
+                    {/* nanti ganti productDescription dengan deskripsi database */}
+                    {product.description.length > 25
+                      ? product.description.substring(0, 25) + "..."
+                      : product.description}
+                  </Td>
+                  <Td>{product.price}</Td>
+                  <Td>{product.stock}</Td>
+                  <Td>
+                    {" "}
+                    <Box>
+                      <Button
+                        marginRight={"15px"}
+                        color={"white"}
+                        bgColor={"#56C05A"}
+                        p={"0px 50px"}
+                        onClick={() => handleEdit(product)}
+                      >
+                        Edit
+                      </Button>
+                      <EditProductModal
+                        isOpen={isOpen}
+                        onClose={onClose}
+                        initialRef={initialRef}
+                        finalRef={finalRef}
+                        product={selectedProduct}
+                        onProductUpdate={onProductUpdate}
+                      />
+                      <Button
+                        color={"white"}
+                        bgColor={"#F74C4C"}
+                        p={"0px 45px"}
+                        onClick={() => handleDelete(product.id)}
+                      >
+                        Delete
+                      </Button>
+                    </Box>
+                  </Td>
+                </Tr>
+              ))}
             </Tbody>
             {/* <Tfoot>
                 <Tr>

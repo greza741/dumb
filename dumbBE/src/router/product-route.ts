@@ -9,13 +9,17 @@ const productRoute = Router();
 productRoute.post(
   "/create",
   authentication,
-  parseIntegers,
   upload.single("image"),
   productController.create
 );
 productRoute.get("/", authentication, productController.getAll);
 productRoute.get("/:id", authentication, productController.getById);
-productRoute.put("/:id", authentication, productController.update);
+productRoute.put(
+  "/:id",
+  authentication,
+  upload.single("image"),
+  productController.update
+);
 productRoute.delete("/:id", authentication, productController.deleteProduct);
 
 export default productRoute;

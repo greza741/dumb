@@ -17,6 +17,8 @@ import {
 } from "react-router-dom";
 import { Login } from "../pages/login";
 import { Register } from "../pages/register";
+import EditProduc from "@/components/home/NavComp/product/page-edit";
+import Cart from "@/components/home/NavComp/cart/cart";
 
 const routes: RouteObject[] = [
   {
@@ -24,8 +26,21 @@ const routes: RouteObject[] = [
     element: <UserLayout />,
     children: [
       {
-        index: true,
-        element: <Product />,
+        path: "/",
+        children: [
+          {
+            index: true,
+            element: <Product />,
+          },
+          {
+            path: "detail/:idProduct",
+            element: <Detail />,
+          },
+          {
+            path: "cart",
+            element: <Cart />,
+          },
+        ],
       },
       {
         path: "complain",
@@ -55,7 +70,16 @@ const routes: RouteObject[] = [
       },
       {
         path: "product",
-        element: <ProductAdmin />,
+        children: [
+          {
+            index: true,
+            element: <ProductAdmin />,
+          },
+          {
+            path: "edit/:idProduct",
+            element: <EditProduc />,
+          },
+        ],
       },
     ],
   },
@@ -74,11 +98,7 @@ const routes: RouteObject[] = [
   },
   {
     path: "/test",
-    element: <Test />,
-  },
-  {
-    path: "/detail",
-    element: <Detail />,
+    element: <Cart />,
   },
 
   {

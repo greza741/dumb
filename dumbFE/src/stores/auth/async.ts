@@ -5,6 +5,7 @@ import { RegisterSchema } from "@/validations/register-schema";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Cookies from "js-cookie";
 
 export const registerAsync = createAsyncThunk<void, RegisterSchema>(
   "auth/register",
@@ -29,7 +30,7 @@ export const loginAsync = createAsyncThunk<
 >("auth/login", async (data, thunkAPI) => {
   try {
     const res = await api.post("/auth/login", data);
-    localStorage.setItem("token", res.data.token);
+    Cookies.set("token", res.data.token);
     return res.data;
   } catch (error) {
     console.log(error);
@@ -48,7 +49,7 @@ export const checkAuthAsync = createAsyncThunk<
   undefined
 >("auth/check", async (_, thunkAPI) => {
   try {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("token");
     if (!token) {
       return thunkAPI.rejectWithValue("");
     }

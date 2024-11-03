@@ -1,4 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/stores";
+import { checkAuthAsync } from "@/stores/auth/async";
 import { updateUserAsync } from "@/stores/user/async";
 import {
   Box,
@@ -78,9 +79,10 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({
   };
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(
+    await dispatch(
       updateUserAsync({ data: { ...formData, avatar: file ?? undefined } })
     );
+    await dispatch(checkAuthAsync());
     onClose();
   };
 
@@ -178,9 +180,9 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({
                     value={formData.gender}
                     onChange={handleChange}
                   >
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="DemiGod">DemiGod</option>
+                    <option value="MALE">Male</option>
+                    <option value="FEMALE">Female</option>
+                    <option value="DEMIGOD">DemiGod</option>
                   </Select>
                 </Box>
                 <Box paddingTop={"15px"}>

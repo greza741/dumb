@@ -1,5 +1,6 @@
 import logo2 from "@/assets/Frame@3x.svg";
 import ContainerNav from "@/components/home/NavComp/user/container-nav";
+import { CartIcon } from "@/components/icon/icon";
 import { useAppSelector } from "@/stores";
 import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 import {
@@ -18,10 +19,11 @@ import {
   Stack,
   useDisclosure,
 } from "@chakra-ui/react";
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 export function UserLayout() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const location = useLocation();
+  const navigate = useNavigate();
   const userRole = useAppSelector((state) => state.auth.user?.role);
   const token = useAppSelector((state) => state.auth.token);
 
@@ -54,6 +56,15 @@ export function UserLayout() {
               <Image src={logo2} alt="logo" w={"50px"} />
             </Button>
           </HStack>
+          <Box ml={"auto"} mb={"10px"}>
+            <Button
+              onClick={() => navigate("/cart")}
+              _hover={{ bg: "transparent" }}
+              bgColor={"transparent"}
+            >
+              <CartIcon />
+            </Button>
+          </Box>
           <Flex alignItems={"center"}>
             <HStack spacing={4} display={{ base: "none", md: "flex" }}>
               <ContainerNav />

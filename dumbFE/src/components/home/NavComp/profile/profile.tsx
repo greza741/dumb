@@ -1,5 +1,12 @@
 import { useAppSelector } from "@/stores";
-import { Box, Button, Image, Text, useDisclosure } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Image,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { MyTransaction } from "./myTransaction";
 import EditProfileModal from "./edit-profile-modal";
 import React from "react";
@@ -28,14 +35,12 @@ export function Profile() {
         </Text>
         <Image
           h={"400px"}
-          w={"500px"}
+          w={"100rem"}
           objectFit={"contain"}
           src={user?.avatar}
           alt="avatar"
         />
-        <Button bgColor={"brand.background"} color={"white"} onClick={onOpen}>
-          Edit Profile
-        </Button>
+
         <EditProfileModal
           isOpen={isOpen}
           onClose={onClose}
@@ -44,7 +49,12 @@ export function Profile() {
         />
       </Box>
 
-      <Box paddingLeft={"50px"} fontSize={"17px"} w={"200px"}>
+      <Flex
+        flexDirection={"column"}
+        paddingLeft={"50px"}
+        fontSize={"17px"}
+        w={"100%"}
+      >
         <Box paddingTop={"60px"}>
           <Text fontWeight={"bold"} color={"brand.orange"}>
             Name
@@ -75,7 +85,19 @@ export function Profile() {
           </Text>
           <Text>{user?.address}</Text>
         </Box>
-      </Box>
+        <Flex w={"100%"}>
+          <Button
+            mt={"30px"}
+            _hover={{ bgColor: "transparent" }}
+            bgColor={"brand.background"}
+            color={"white"}
+            onClick={onOpen}
+            w={"100%"}
+          >
+            Edit Profile
+          </Button>
+        </Flex>
+      </Flex>
       <Box paddingLeft={"400px"} w={"70%"}>
         <Box
           color={"brand.orange"}

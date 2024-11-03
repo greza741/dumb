@@ -3,11 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { authSlice } from "./auth/slice";
 import { userSlice } from "./user/slice";
 import { categorySlice } from "./category/slice";
+import { productSlice } from "./product/slice";
+import { cartSlice } from "./cart/slice";
 const store = configureStore({
   reducer: {
     auth: authSlice.reducer,
     user: userSlice.reducer,
     category: categorySlice.reducer,
+    product: productSlice.reducer,
+    cart: cartSlice.reducer,
   },
 });
 

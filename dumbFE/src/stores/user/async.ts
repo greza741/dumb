@@ -1,6 +1,7 @@
 import { api } from "@/libs/api";
 import { IUpdateProfileDTO, IUser } from "@/type/user";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 
 export const updateUserAsync = createAsyncThunk<
@@ -9,7 +10,7 @@ export const updateUserAsync = createAsyncThunk<
   { rejectValue: string }
 >("user/edit", async ({ data }, thunkAPI) => {
   try {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("token");
     if (!token) {
       return thunkAPI.rejectWithValue("Token not found");
     }
@@ -30,7 +31,7 @@ export const updateUserAsync = createAsyncThunk<
       },
     });
     const updatedUser = res.data;
-    toast;
+    toast.success("Profile updated successfully");
     return updatedUser;
   } catch (error) {
     console.log(error);
