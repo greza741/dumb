@@ -5,7 +5,15 @@ export const getCart = async (req: Request, res: Response) => {
   const userId = parseInt(req.params.userId);
   try {
     const cart = await cartService.getCartByUserId(userId);
-    res.json(cart);
+    if (cart) {
+      res.json({
+        cartId: cart.id,
+        cartItems: cart.cartItems,
+        totalPrice: cart.totalPrice,
+      });
+    } else {
+      res.status(404).json({ message: "Cart not found" });
+    }
   } catch (error) {
     const err = error as Error;
     res.status(500).json({ message: err.message });

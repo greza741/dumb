@@ -25,19 +25,49 @@ export const updateUserController = async (
   }
 };
 
-export const getUserWithCart = async (userId: number) => {
-  return await prisma.user.findUnique({
-    where: { id: userId },
-    include: {
-      cart: {
-        include: {
-          cartItems: {
-            include: {
-              product: true,
-            },
-          },
-        },
-      },
-    },
-  });
+export const getUserTransactionItemsController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userId = res.locals.user.id;
+
+    const userWithTransactionItems = await userService.getUserTransactionItems(
+      userId
+    );
+
+    if (!userWithTransactionItems) {
+      return res
+        .status(404)
+        .json({ message: "User or transactions not found" });
+    }
+
+    res.json(userWithTransactionItems);
+  } catch (error) {
+    console.error("Error fetching transaction items:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+export const getUserTransactionItemsAdminController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userWithTransactionItems =
+      await userService.getUserTransactionItemsAdmin();
+
+    if (!userWithTransactionItems) {
+      return res
+        .status(404)
+        .json({ message: "User or transactions not found" });
+    }
+
+    res.json(userWithTransactionItems);
+  } catch (error) {
+    console.error("Error fetching transaction items:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 };

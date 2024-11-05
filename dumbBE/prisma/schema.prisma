@@ -14,18 +14,18 @@ datasource db {
 }
 
 model User {
-  id       Int         @id @default(autoincrement())
-  email    String      @unique
-  password String
-  name     String
-  avatar   String?
-  gender   GenderEnum?
-  phone    String?
-  address  String?
-  product  Product[]
-  order    Order[]
-  role     RoleEnum    @default(USER)
-  cart     Cart?
+  id          Int           @id @default(autoincrement())
+  email       String        @unique
+  password    String
+  name        String
+  avatar      String?
+  gender      GenderEnum?
+  phone       String?
+  address     String?
+  product     Product[]
+  role        RoleEnum      @default(USER)
+  cart        Cart?
+  transaction Transaction[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -34,20 +34,20 @@ model User {
 }
 
 model Product {
-  id          Int         @id @default(autoincrement())
-  name        String
-  description String
-  image       String?
-  price       Int
-  stock       Int
-  categoryId  Int
-  userId      Int
-  category    Category    @relation(fields: [categoryId], references: [id])
-  user        User        @relation(fields: [userId], references: [id])
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  OrderItem   OrderItem[]
-  CartItem    CartItem[]
+  id              Int               @id @default(autoincrement())
+  name            String
+  description     String
+  image           String?
+  price           Int
+  stock           Int
+  categoryId      Int
+  userId          Int
+  category        Category          @relation(fields: [categoryId], references: [id])
+  user            User              @relation(fields: [userId], references: [id])
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  CartItem        CartItem[]
+  transactionItem TransactionItem[]
 
   @@map("product")
 }
@@ -61,11 +61,12 @@ model Category {
 }
 
 model Cart {
-  id         Int        @id @default(autoincrement())
-  userId     Int        @unique
-  user       User       @relation(fields: [userId], references: [id])
-  cartItems  CartItem[]
-  totalPrice Int        @default(0)
+  id          Int           @id @default(autoincrement())
+  userId      Int           @unique
+  user        User          @relation(fields: [userId], references: [id])
+  cartItems   CartItem[]
+  totalPrice  Int           @default(0)
+  transaction Transaction[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -85,27 +86,51 @@ model CartItem {
   @@map("cartItem")
 }
 
-model Order {
-  id         Int         @id @default(autoincrement())
-  userId     Int
-  total      Int
-  createdAt  DateTime    @default(now())
-  user       User        @relation(fields: [userId], references: [id])
-  orderItems OrderItem[]
+model Transaction {
+  id              Int                   @id @default(autoincrement())
+  userId          Int
+  cartId          Int
+  transactionId   String                @unique
+  amount          Int
+  status          TransactionStatusEnum @default(PENDING)
+  paymentUrl      String?
+  TransactionItem TransactionItem[]
 
-  @@map("order")
+  user User @relation(fields: [userId], references: [id])
+  cart Cart @relation(fields: [cartId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("transaction")
 }
 
-model OrderItem {
-  id        Int     @id @default(autoincrement())
-  orderId   Int
-  productId Int
-  quantity  Int
-  price     Int
-  order     Order   @relation(fields: [orderId], references: [id])
-  product   Product @relation(fields: [productId], references: [id])
+model TransactionItem {
+  id            Int         @id @default(autoincrement())
+  transactionId Int
+  productId     Int
+  quantity      Int
+  subTotal      Int
+  product       Product     @relation(fields: [productId], references: [id])
+  transaction   Transaction @relation(fields: [transactionId], references: [id])
+  createdAt     DateTime    @default(now())
+  updateAt      DateTime    @updatedAt
 
-  @@map("orderItem")
+  @@map("transactionItem")
+}
+
+enum TransactionItemStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELED
+}
+
+enum TransactionStatusEnum {
+  PENDING
+  SUCCESS
+  FAILED
 }
 
 enum RoleEnum {

@@ -25,3 +25,41 @@ export const updateServices = async (
   const { password, ...dataUser } = updateUser;
   return dataUser;
 };
+
+export const getUserTransactionItems = async (userId: number) => {
+  return await prisma.user.findUnique({
+    where: { id: userId },
+    include: {
+      transaction: {
+        include: {
+          TransactionItem: {
+            include: {
+              product: true,
+            },
+          },
+        },
+      },
+    },
+  });
+};
+
+export const getUserTransactionItemsAdmin = async () => {
+  return await prisma.user.findMany({
+    where: {
+      transaction: {
+        some: {},
+      },
+    },
+    include: {
+      transaction: {
+        include: {
+          TransactionItem: {
+            include: {
+              product: true,
+            },
+          },
+        },
+      },
+    },
+  });
+};

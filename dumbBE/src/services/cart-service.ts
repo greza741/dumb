@@ -18,20 +18,20 @@ export const addItemToCart = async (
   productId: number,
   quantity: number
 ) => {
-  // Ensure the cart exists or create a new one
+  // meastikan cart ada atau membuat cart baru
   let cart = await prisma.cart.findUnique({ where: { userId } });
   if (!cart) {
     cart = await prisma.cart.create({ data: { userId } });
   }
 
-  // Check if the item already exists in the cart
+  // cek kalo sudah ada item di cart
   const existingItem = await prisma.cartItem.findFirst({
     where: { cartId: cart.id, productId },
     include: { product: true },
   });
 
   if (existingItem) {
-    // Update quantity and totalPrice if item exists
+    // update totalPrice sama quantity kalo udah ada
     const updatedQuantity = existingItem.quantity + quantity;
     const totalPrice = updatedQuantity * existingItem.product.price;
 
@@ -40,7 +40,7 @@ export const addItemToCart = async (
       data: { quantity: updatedQuantity, totalPrice },
     });
   } else {
-    // Add new item to cart with calculated totalPrice
+    // perkalian buat quantity sama Product.Price
     const product = await prisma.product.findUnique({
       where: { id: productId },
     });
@@ -51,12 +51,12 @@ export const addItemToCart = async (
         cartId: cart.id,
         productId,
         quantity,
-        totalPrice: quantity * product.price, // Calculate initial totalPrice
+        totalPrice: quantity * product.price,
       },
     });
   }
 
-  // Update totalPrice in Cart after adding/updating CartItem
+  // Update totalPrice di cart
   await updateCartTotalPrice(cart.id);
 
   return prisma.cart.findUnique({

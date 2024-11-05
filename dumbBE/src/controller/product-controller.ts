@@ -82,7 +82,6 @@ export const update = async (req: Request, res: Response) => {
   try {
     const productId = Number(req.params.id);
     const { name, price, description, categoryId, stock } = req.body;
-    console.log("req.body", req.body);
 
     if (name !== undefined && typeof name !== "string") {
       return res.status(400).json({ error: "Name must be a string." });
@@ -110,7 +109,6 @@ export const update = async (req: Request, res: Response) => {
 
     const file = req.file as Express.Multer.File;
 
-    console.log("updatedProduct", file);
     const updatedProduct = await productService.updateProduct(
       productId,
       updatedData,
