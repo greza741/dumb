@@ -68,11 +68,11 @@ export function Product() {
                   {formatCurrency(product.price)}{" "}
                 </Text>
                 <Text color={"white"} fontSize={"11px"}>
-                  {product.stock}
+                  Stock : {product.stock}
                 </Text>
                 <Button
                   onClick={() => handleAddItem(product.id)}
-                  colorScheme="blackAlpha"
+                  bgColor={"brand.orange"}
                   mt={2}
                   w={"100%"}
                 >

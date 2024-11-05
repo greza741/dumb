@@ -24,7 +24,7 @@ export function Profile() {
       flexDirection={"row"}
       padding={"50px"}
     >
-      <Box>
+      <Flex h={"100%"} w={"40%"} flexDirection={"column"}>
         <Text
           color={"brand.orange"}
           fontSize={"30px"}
@@ -34,8 +34,8 @@ export function Profile() {
           My Profile
         </Text>
         <Image
-          h={"400px"}
-          w={"100rem"}
+          h={"100%"}
+          w={"100%"}
           objectFit={"contain"}
           src={user?.avatar}
           alt="avatar"
@@ -47,7 +47,7 @@ export function Profile() {
           initialRef={initialRef}
           finalRef={finalRef}
         />
-      </Box>
+      </Flex>
 
       <Flex
         flexDirection={"column"}
@@ -89,7 +89,7 @@ export function Profile() {
           <Button
             mt={"30px"}
             _hover={{ bgColor: "transparent" }}
-            bgColor={"brand.background"}
+            bgColor={"brand.orange"}
             color={"white"}
             onClick={onOpen}
             w={"100%"}

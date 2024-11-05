@@ -10,12 +10,31 @@ import {
 } from "@chakra-ui/react";
 import { IsiCart } from "./isi-cart";
 import { useNavigate } from "react-router-dom";
-import { useAppSelector } from "@/stores";
+import { useAppDispatch, useAppSelector } from "@/stores";
 import { formatCurrency } from "@/components/addOther/formatcurrency";
+import { createTransactionAsync } from "@/stores/transaction/async";
+import { useEffect } from "react";
 
 export const Cart = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const items = useAppSelector((state) => state.cart);
+  const { paymentUrl, loading } = useAppSelector((state) => state.transaction);
+
+  const userId = useAppSelector((state) => state.auth.user?.id);
+  const cartId = useAppSelector((state) => state.cart.cartId);
+
+  const handleCheckout = () => {
+    dispatch(createTransactionAsync({ userId: userId!, cartId: cartId! }));
+  };
+  console.log("check", userId, cartId);
+
+  useEffect(() => {
+    if (paymentUrl) {
+      window.location.href = paymentUrl;
+    }
+  }, [paymentUrl]);
+
   return (
     <>
       <Flex p="8" direction={{ base: "column", lg: "row" }} align="center">
@@ -53,15 +72,21 @@ export const Cart = () => {
             <Divider />
             <Flex justify="space-between" fontWeight="bold" fontSize="lg">
               <Text>Total</Text>
-              <Text>123</Text>
+              <Text>{formatCurrency(items.totalPrice)}</Text>
             </Flex>
           </VStack>
-          <Button colorScheme="blue" w="full" mt="4">
+          <Button
+            onClick={handleCheckout}
+            isLoading={loading}
+            colorScheme="blue"
+            w="full"
+            mt="4"
+          >
             Checkout
           </Button>
           <Button
             bgColor={"transparent"}
-            onClick={() => navigate(-1)}
+            onClick={() => navigate("/")}
             textAlign="center"
             mt="4"
             color="blue.500"

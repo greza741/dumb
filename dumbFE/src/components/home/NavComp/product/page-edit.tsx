@@ -1,7 +1,15 @@
 import { CloseX } from "@/components/icon/icon";
 import { useAppDispatch, useAppSelector } from "@/stores";
 import { updateProductAsync } from "@/stores/product/async";
-import { Box, Button, Flex, FormControl, Input, Stack } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  FormControl,
+  Image,
+  Input,
+  Stack,
+} from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -31,6 +39,8 @@ const EditProduc: React.FC<ProductModalProps> = () => {
   });
   const [imageFile, setImageFile] = useState<any>(null);
 
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+
   useEffect(() => {
     if (product) {
       setFormData({
@@ -50,18 +60,16 @@ const EditProduc: React.FC<ProductModalProps> = () => {
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    console.log(file, "<<< cek file");
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
     if (file) {
-      // setImageFile(file);
-      console.log(imageFile, "<<< cek image file");
-
-      // const reader = new FileReader();
-      // reader.onloadend = () => setImagePreview(reader.result as string);
-      // reader.readAsDataURL(e.target.files[0]);
+      setImageFile(file);
+      console.log("Selected image file:", file);
+      const reader = new FileReader();
+      reader.onloadend = () => setImagePreview(reader.result as string);
+      reader.readAsDataURL(file);
     } else {
-      console.log("Selected image file ELSE:", file);
+      console.log("Selected image file:", file);
     }
   };
 
@@ -73,9 +81,7 @@ const EditProduc: React.FC<ProductModalProps> = () => {
     updatedFormData.append("stock", formData.stock.toString());
 
     if (imageFile) {
-      console.log("ADA GAMBARNYA");
-
-      updatedFormData.append("image", imageFile); // Pastikan file gambar disertakan
+      updatedFormData.append("image", imageFile);
     }
 
     try {
@@ -84,7 +90,6 @@ const EditProduc: React.FC<ProductModalProps> = () => {
       );
       navigate(-1);
       if (updateProductAsync.fulfilled.match(response)) {
-        toast.success("Product updated successfully");
       } else {
         toast.error("Failed to update product");
       }
@@ -103,25 +108,35 @@ const EditProduc: React.FC<ProductModalProps> = () => {
             id="image-update"
             accept="image/*"
             hidden
-            onChange={(e) => {
-              if (e.currentTarget.files) {
-                setImageFile(e.currentTarget.files[0]);
-              }
-            }}
+            onChange={handleImageUpload}
           />{" "}
-          <Button
-            w={"10%"}
-            onClick={() => document.getElementById("image-update")?.click()}
-          >
-            Add Image
-          </Button>
-          <Button
-            bgColor={"transparent"}
-            onClick={() => navigate(-1)}
-            _hover={{ bgColor: "transparent" }}
-          >
-            <CloseX />
-          </Button>
+          <Flex>
+            <Button
+              w={"190%"}
+              onClick={() => document.getElementById("image-update")?.click()}
+            >
+              Add Image
+            </Button>
+            {imagePreview && (
+              <Image
+                src={imagePreview}
+                alt="Image Preview"
+                boxSize="50px"
+                objectFit="cover"
+                borderRadius="md"
+                pl={5}
+              />
+            )}
+          </Flex>
+          <Box>
+            <Button
+              bgColor={"transparent"}
+              onClick={() => navigate(-1)}
+              _hover={{ bgColor: "transparent" }}
+            >
+              <CloseX />
+            </Button>
+          </Box>
         </Flex>
         <FormControl>
           <Input
@@ -166,7 +181,7 @@ const EditProduc: React.FC<ProductModalProps> = () => {
       </Stack>
       <Box paddingTop={"20px"}>
         <Button
-          onClick={(e) => {
+          onClick={() => {
             handleSubmit();
           }}
           w={"100%"}

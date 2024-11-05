@@ -7,6 +7,9 @@ export interface IUser {
   phone: string;
   address: string;
   role: string;
+  createdAt: Date;
+  updatedAt: Date;
+  transactions: ITransaction[];
 }
 
 export interface IUpdateProfileDTO {

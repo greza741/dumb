@@ -1,15 +1,24 @@
-import { IUser } from "@/type/user";
 import { createSlice } from "@reduxjs/toolkit";
-import { cases } from "./cases";
+import {
+  updateUserAsync,
+  getUserTransactionItemsAsync,
+  getUserTransactionItemsAdminAsync,
+} from "./async";
+import { IUser } from "@/type/user";
+import { ITransaction } from "@/type/transaction";
 
 export interface UserState {
   user?: IUser;
+  transactions?: ITransaction;
+  allUserTransactions?: ITransaction[];
   loading: boolean;
   error?: string;
 }
 
 const initialState: UserState = {
   user: {} as IUser,
+  transactions: undefined,
+  allUserTransactions: undefined,
   loading: false,
   error: undefined,
 };
@@ -19,7 +28,43 @@ export const userSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    cases(builder);
+    builder
+      // Untuk update profil
+      .addCase(updateUserAsync.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload.user;
+      })
+      .addCase(updateUserAsync.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateUserAsync.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      // Untuk transaksi pengguna
+      .addCase(getUserTransactionItemsAsync.fulfilled, (state, action) => {
+        state.loading = false;
+        state.transactions = action.payload;
+      })
+      .addCase(getUserTransactionItemsAsync.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getUserTransactionItemsAsync.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      // Untuk transaksi admin
+      .addCase(getUserTransactionItemsAdminAsync.fulfilled, (state, action) => {
+        state.loading = false;
+        state.allUserTransactions = action.payload;
+      })
+      .addCase(getUserTransactionItemsAdminAsync.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getUserTransactionItemsAdminAsync.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
   },
 });
 

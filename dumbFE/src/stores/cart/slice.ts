@@ -12,19 +12,21 @@ interface CartItem {
   productId: number;
   quantity: number;
   product: Product;
-  totalPrice: number; // Total price for the individual item
+  totalPrice: number;
 }
 
 interface CartState {
   items: CartItem[];
   loading: boolean;
-  totalPrice: number; // Total price for all items in the cart
+  totalPrice: number;
+  cartId: number | null;
 }
 
 const initialState: CartState = {
   items: [],
   loading: false,
   totalPrice: 0,
+  cartId: null,
 };
 
 export const cartSlice = createSlice({
@@ -41,11 +43,16 @@ export const cartSlice = createSlice({
         getCartAsync.fulfilled,
         (
           state,
-          action: PayloadAction<{ cartItems: CartItem[]; totalPrice: number }>
+          action: PayloadAction<{
+            cartId: number;
+            cartItems: CartItem[];
+            totalPrice: number;
+          }>
         ) => {
           state.loading = false;
           state.items = action.payload.cartItems;
           state.totalPrice = action.payload.totalPrice; // Update the cart total price
+          state.cartId = action.payload.cartId;
         }
       )
       .addCase(getCartAsync.rejected, (state) => {

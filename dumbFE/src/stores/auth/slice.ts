@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { cases } from "./cases";
 import { IUser } from "@/type/user";
+import Cookies from "js-cookie";
 
 export interface AuthState {
   user?: IUser;
@@ -21,7 +22,7 @@ export const authSlice = createSlice({
     LOGOUT(state) {
       state.user = undefined;
       state.token = "";
-      localStorage.removeItem("token");
+      Cookies.remove("token");
     },
   },
   extraReducers: (builder) => {

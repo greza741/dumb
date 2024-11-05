@@ -1,7 +1,27 @@
 import { Box, Flex, Image, Stack, Text } from "@chakra-ui/react";
 import logo2 from "@/assets/Frame@3x.svg";
+import { useAppDispatch, useAppSelector } from "@/stores";
+import { getCartAsync } from "@/stores/cart/async";
+import { useEffect } from "react";
+import { formatCurrency } from "@/components/addOther/formatcurrency";
+import { getUserTransactionItemsAsync } from "@/stores/user/async";
 
 export function MyTransaction() {
+  const dispatch = useAppDispatch();
+  const items = useAppSelector((state) => state.cart.items);
+  const transactionStatus = useAppSelector((state) => state.transaction.status);
+  const userId = useAppSelector((state) => state.auth.user?.id);
+  const transaction = useAppSelector((state) => state.user.transactions);
+
+  console.log(transaction, "<<< transactions");
+
+  useEffect(() => {
+    if (userId) {
+      dispatch(getCartAsync(userId));
+    }
+    dispatch(getUserTransactionItemsAsync());
+  }, [dispatch, userId]);
+
   return (
     <Box h={"400px"} w={"650px"}>
       <Flex flexDirection="column" w="100%" m="auto" h="100%" roundedTop="lg">
@@ -23,9 +43,9 @@ export function MyTransaction() {
             },
           }}
         >
-          {Array.from({ length: 10 }).map((_, index) => (
+          {/* {transactions?.map((transaction) => (
             <Box
-              key={index}
+              key={transaction.id}
               display={"flex"}
               flexDirection={"row"}
               border={"1px solid transparent"}
@@ -39,7 +59,7 @@ export function MyTransaction() {
                   w={"200px"}
                   h={"200px"}
                   objectFit={"cover"}
-                  src="https://picsum.photos/200"
+                  src={transaction.product.image}
                 />
               </Box>
               <Box
@@ -54,7 +74,7 @@ export function MyTransaction() {
                     color={"brand.orange"}
                     fontSize={"25px"}
                   >
-                    Mouse
+                    {transaction.product.name}
                   </Text>
                   <Text
                     fontWeight={"bold"}
@@ -66,17 +86,25 @@ export function MyTransaction() {
                       22 June 2022
                     </Text>
                   </Text>
-                  <Text paddingTop={"20px"}>Price : Rp.500.000</Text>
+                  <Text paddingTop={"20px"}>
+                    Price : {formatCurrency(transaction.product.price)}
+                  </Text>
+                  <Text paddingTop={"20px"}>
+                    Quantity : {transaction.quantity}
+                  </Text>
+                  <Text paddingTop={"20px"}>Status : {transactionStatus}</Text>
                 </Box>
                 <Box>
-                  <Text>Sub Total : Rp.500.000</Text>
+                  <Text>
+                    Sub Total : {formatCurrency(transaction.subTotal)}
+                  </Text>
                 </Box>
               </Box>
               <Box alignContent={"center"} paddingLeft={"80px"}>
                 <Image src={logo2} alt="logo" w={"90px"} />
               </Box>
             </Box>
-          ))}
+          ))} */}
         </Stack>
       </Flex>
     </Box>

@@ -1,4 +1,5 @@
 import { api } from "@/libs/api";
+import { ITransaction } from "@/type/transaction";
 import { IUpdateProfileDTO, IUser } from "@/type/user";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
@@ -37,6 +38,53 @@ export const updateUserAsync = createAsyncThunk<
     console.log(error);
     if (error instanceof Error) {
       toast.error(error.message);
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+});
+
+export const getUserTransactionItemsAsync = createAsyncThunk<
+  ITransaction,
+  void,
+  { rejectValue: string }
+>("user/getUserTransactionItems", async (_, thunkAPI) => {
+  try {
+    const token = Cookies.get("token");
+    if (!token) {
+      return thunkAPI.rejectWithValue("Token not found");
+    }
+
+    const res = await api.get(`/user/transaction`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    // console.log(res.data.transaction, "data nih");
+
+    return res.data;
+  } catch (error) {
+    if (error instanceof Error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+});
+
+// Thunk untuk mendapatkan transaksi semua pengguna (admin)
+export const getUserTransactionItemsAdminAsync = createAsyncThunk<
+  ITransaction[],
+  void,
+  { rejectValue: string }
+>("user/getUserTransactionItemsAdmin", async (_, thunkAPI) => {
+  try {
+    const token = Cookies.get("token");
+    if (!token) {
+      return thunkAPI.rejectWithValue("Token not found");
+    }
+
+    const res = await api.get(`/user/admin-transaction`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return res.data;
+  } catch (error) {
+    if (error instanceof Error) {
       return thunkAPI.rejectWithValue(error.message);
     }
   }

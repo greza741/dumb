@@ -14,6 +14,13 @@ export const IsiCart = () => {
   const dispatch = useAppDispatch();
   const { items, loading } = useAppSelector((state) => state.cart);
   const userId = useAppSelector((state) => state.auth.user?.id);
+  // const cartId = useAppSelector((state) => state.cart.id);
+  // useEffect(() => {
+  //   if (cartId) {
+  //     setCartId(cartId);
+  //   }
+  // }, [cartId, setCartId]);
+  console.log(items);
 
   useEffect(() => {
     if (userId) {
