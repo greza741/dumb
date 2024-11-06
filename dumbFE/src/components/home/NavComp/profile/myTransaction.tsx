@@ -4,22 +4,28 @@ import { useAppDispatch, useAppSelector } from "@/stores";
 import { getCartAsync } from "@/stores/cart/async";
 import { useEffect } from "react";
 import { formatCurrency } from "@/components/addOther/formatcurrency";
-import { getUserTransactionItemsAsync } from "@/stores/user/async";
+import {
+  getUserTransactionItemsAdminAsync,
+  getUserTransactionItemsAsync,
+} from "@/stores/user/async";
 
 export function MyTransaction() {
   const dispatch = useAppDispatch();
   const items = useAppSelector((state) => state.cart.items);
-  const transactionStatus = useAppSelector((state) => state.transaction.status);
+  const transactionStatus = useAppSelector(
+    (state) => state.user.transactions?.[0]?.status
+  );
   const userId = useAppSelector((state) => state.auth.user?.id);
-  const transaction = useAppSelector((state) => state.user.transactions);
+  const transactions = useAppSelector((state) => state.user.transactions);
 
-  console.log(transaction, "<<< transactions");
+  console.log(transactionStatus, "<<< transactions");
 
   useEffect(() => {
     if (userId) {
       dispatch(getCartAsync(userId));
     }
     dispatch(getUserTransactionItemsAsync());
+    dispatch(getUserTransactionItemsAdminAsync());
   }, [dispatch, userId]);
 
   return (
@@ -43,7 +49,7 @@ export function MyTransaction() {
             },
           }}
         >
-          {/* {transactions?.map((transaction) => (
+          {transactions?.[0]?.TransactionItem?.map((transaction) => (
             <Box
               key={transaction.id}
               display={"flex"}
@@ -104,7 +110,7 @@ export function MyTransaction() {
                 <Image src={logo2} alt="logo" w={"90px"} />
               </Box>
             </Box>
-          ))} */}
+          ))}
         </Stack>
       </Flex>
     </Box>

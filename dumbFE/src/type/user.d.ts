@@ -9,7 +9,7 @@ export interface IUser {
   role: string;
   createdAt: Date;
   updatedAt: Date;
-  transactions: ITransaction[];
+  transaction: ITransaction[];
 }
 
 export interface IUpdateProfileDTO {

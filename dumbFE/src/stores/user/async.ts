@@ -44,7 +44,7 @@ export const updateUserAsync = createAsyncThunk<
 });
 
 export const getUserTransactionItemsAsync = createAsyncThunk<
-  ITransaction,
+  ITransaction[],
   void,
   { rejectValue: string }
 >("user/getUserTransactionItems", async (_, thunkAPI) => {
@@ -57,9 +57,8 @@ export const getUserTransactionItemsAsync = createAsyncThunk<
     const res = await api.get(`/user/transaction`, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    // console.log(res.data.transaction, "data nih");
 
-    return res.data;
+    return res.data.transaction;
   } catch (error) {
     if (error instanceof Error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -69,7 +68,7 @@ export const getUserTransactionItemsAsync = createAsyncThunk<
 
 // Thunk untuk mendapatkan transaksi semua pengguna (admin)
 export const getUserTransactionItemsAdminAsync = createAsyncThunk<
-  ITransaction[],
+  IUser[],
   void,
   { rejectValue: string }
 >("user/getUserTransactionItemsAdmin", async (_, thunkAPI) => {
@@ -82,6 +81,8 @@ export const getUserTransactionItemsAdminAsync = createAsyncThunk<
     const res = await api.get(`/user/admin-transaction`, {
       headers: { Authorization: `Bearer ${token}` },
     });
+    console.log("CHECK ADMIN", res.data);
+
     return res.data;
   } catch (error) {
     if (error instanceof Error) {

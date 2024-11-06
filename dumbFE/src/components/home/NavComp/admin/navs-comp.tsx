@@ -1,5 +1,13 @@
 export const NavsAdmin = [
   {
+    path: "/admin/transaction",
+    name: "Transaction",
+    color: {
+      inactive: "white",
+      active: "brand.orange",
+    },
+  },
+  {
     path: "/admin/complain",
     name: "Complain",
     color: {

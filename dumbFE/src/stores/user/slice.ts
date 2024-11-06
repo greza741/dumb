@@ -9,16 +9,16 @@ import { ITransaction } from "@/type/transaction";
 
 export interface UserState {
   user?: IUser;
-  transactions?: ITransaction;
-  allUserTransactions?: ITransaction[];
+  transactions?: ITransaction[];
+  allUserTransactions?: IUser[];
   loading: boolean;
   error?: string;
 }
 
 const initialState: UserState = {
   user: {} as IUser,
-  transactions: undefined,
-  allUserTransactions: undefined,
+  transactions: [],
+  allUserTransactions: [],
   loading: false,
   error: undefined,
 };

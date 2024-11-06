@@ -19,6 +19,7 @@ import { Login } from "../pages/login";
 import { Register } from "../pages/register";
 import EditProduc from "@/components/home/NavComp/product/page-edit";
 import Cart from "@/components/home/NavComp/cart/cart";
+import Transaction from "@/components/home/NavComp/transactionAdmin/transaction";
 
 const routes: RouteObject[] = [
   {
@@ -59,6 +60,10 @@ const routes: RouteObject[] = [
       {
         index: true,
         element: <Product />,
+      },
+      {
+        path: "transaction",
+        element: <Transaction />,
       },
       {
         path: "complain",
