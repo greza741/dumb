@@ -64,12 +64,10 @@ const EditProduc: React.FC<ProductModalProps> = () => {
     const file = event.target.files?.[0];
     if (file) {
       setImageFile(file);
-      console.log("Selected image file:", file);
       const reader = new FileReader();
       reader.onloadend = () => setImagePreview(reader.result as string);
       reader.readAsDataURL(file);
     } else {
-      console.log("Selected image file:", file);
     }
   };
 

@@ -1,5 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { createTransactionAsync, updateTransactionStatusAsync } from "./async";
+import {
+  createTransactionAsync,
+  fetchTransactionStatusById,
+  updateTransactionStatusAsync,
+} from "./async";
 
 interface TransactionState {
   paymentUrl: string | null;
@@ -48,6 +52,18 @@ export const transactionSlice = createSlice({
         state.status = action.payload.transaction_status;
       })
       .addCase(updateTransactionStatusAsync.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(fetchTransactionStatusById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchTransactionStatusById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.status = action.payload;
+      })
+      .addCase(fetchTransactionStatusById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

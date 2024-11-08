@@ -81,7 +81,6 @@ export const getUserTransactionItemsAdminAsync = createAsyncThunk<
     const res = await api.get(`/user/admin-transaction`, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    console.log("CHECK ADMIN", res.data);
 
     return res.data;
   } catch (error) {

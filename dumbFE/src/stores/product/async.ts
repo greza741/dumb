@@ -60,7 +60,6 @@ export const updateProductAsync = createAsyncThunk(
       const res = await api.put(`/product/${id}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      console.log("Update response:", res); // Log the response
       toast.success("Product updated successfully");
       return res.data; // Ensure this contains the updated product with new image
     } catch (error) {

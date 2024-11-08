@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import * as transactionService from "../services/transaction-service";
+import { TransactionStatusEnum } from "@prisma/client";
+import { prisma } from "../libs/prisma";
 
 export const createTransactionHandler = async (req: Request, res: Response) => {
   try {
@@ -15,17 +17,33 @@ export const createTransactionHandler = async (req: Request, res: Response) => {
   }
 };
 
-export const handleWebhook = async (req: Request, res: Response) => {
-  const { order_id, transaction_status } = req.body;
+const mapMidtransStatusToEnum: Record<string, TransactionStatusEnum> = {
+  pending: TransactionStatusEnum.PENDING,
+  settlement: TransactionStatusEnum.PROCESSING,
+  expire: TransactionStatusEnum.CANCELED,
+  deny: TransactionStatusEnum.CANCELED,
+};
+export const getTransactionStatusHandler = async (
+  req: Request,
+  res: Response
+) => {
+  const { transactionId } = req.params;
 
   try {
-    await transactionService.updateTransactionStatus(
-      order_id,
-      transaction_status
+    const status = await transactionService.fetchTransactionStatus(
+      transactionId
     );
-    return res.status(200).json({ message: "Transaction status updated" });
+
+    const midtransStatus = status;
+    const mappedStatus = mapMidtransStatusToEnum[midtransStatus];
+
+    await prisma.transaction.update({
+      where: { transactionId },
+      data: { status: mappedStatus },
+    });
+    return res.status(200).json({ status });
   } catch (error) {
-    console.error("Error updating transaction status:", error);
+    console.error("Error fetching transaction status:", error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 };

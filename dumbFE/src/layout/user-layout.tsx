@@ -1,7 +1,8 @@
 import logo2 from "@/assets/Frame@3x.svg";
 import ContainerNav from "@/components/home/NavComp/user/container-nav";
 import { CartIcon } from "@/components/icon/icon";
-import { useAppSelector } from "@/stores";
+import { useAppDispatch, useAppSelector } from "@/stores";
+import { setToken } from "@/stores/auth/slice";
 import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 import {
   Avatar,
@@ -19,6 +20,7 @@ import {
   Stack,
   useDisclosure,
 } from "@chakra-ui/react";
+import { useEffect } from "react";
 import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 export function UserLayout() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -32,7 +34,7 @@ export function UserLayout() {
   }
 
   if (userRole !== "USER") {
-    return <Navigate to="/admin" replace />;
+    return <Navigate to="/admin" state={{ from: location }} replace />;
   }
 
   return (

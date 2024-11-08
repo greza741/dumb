@@ -42,7 +42,6 @@ const CategoryModal = ({ isOpen, onClose, categoryId }: CategoryModalProps) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Updating category:", { id: categoryId, name: formData.name });
     dispatch(updateCategoryAsync({ id: categoryId, name: formData.name }));
     onClose();
   };

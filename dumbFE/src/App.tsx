@@ -1,6 +1,6 @@
-import React from "react";
+import { useEffect } from "react";
 import Router from "./router";
-import { useAppDispatch } from "./stores";
+import { useAppDispatch, useAppSelector } from "./stores";
 import { checkAuthAsync } from "./stores/auth/async";
 import { ChakraBaseProvider } from "@chakra-ui/react";
 import { theme } from "./config/chakra-theme";
@@ -9,10 +9,14 @@ import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const dispatch = useAppDispatch();
+  const authState = useAppSelector((state) => state.auth);
 
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(checkAuthAsync());
-  }, []);
+  }, [dispatch]);
+  if (authState.loading) {
+    return <div>Loading...</div>;
+  }
   return (
     <ChakraBaseProvider theme={theme}>
       <Router />

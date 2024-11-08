@@ -10,10 +10,10 @@ checkoutRoute.post(
   transactionController.createTransactionHandler
 );
 
-checkoutRoute.patch(
-  "/transaction-item",
+checkoutRoute.get(
+  "/detail/:transactionId",
   authentication,
-  transactionController.handleWebhook
+  transactionController.getTransactionStatusHandler
 );
 
 export default checkoutRoute;

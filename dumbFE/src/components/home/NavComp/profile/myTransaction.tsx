@@ -17,15 +17,13 @@ export function MyTransaction() {
   );
   const userId = useAppSelector((state) => state.auth.user?.id);
   const transactions = useAppSelector((state) => state.user.transactions);
-
-  console.log(transactionStatus, "<<< transactions");
+  console.log("check id:", transactions);
 
   useEffect(() => {
     if (userId) {
       dispatch(getCartAsync(userId));
     }
     dispatch(getUserTransactionItemsAsync());
-    dispatch(getUserTransactionItemsAdminAsync());
   }, [dispatch, userId]);
 
   return (
@@ -97,6 +95,9 @@ export function MyTransaction() {
                   </Text>
                   <Text paddingTop={"20px"}>
                     Quantity : {transaction.quantity}
+                  </Text>
+                  <Text paddingTop={"20px"}>
+                    ID : {transaction.transactionId}
                   </Text>
                   <Text paddingTop={"20px"}>Status : {transactionStatus}</Text>
                 </Box>

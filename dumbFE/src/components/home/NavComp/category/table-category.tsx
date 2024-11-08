@@ -27,27 +27,8 @@ export function TableCategory({
   };
   return (
     <Box h={"100%"} w={"100%"} bgColor={"brand.background"} color={"white"}>
-      <TableContainer>
-        <Stack
-          w={"100%"}
-          h={"400px"}
-          px={4}
-          py={8}
-          overflow="auto"
-          flex={1}
-          css={{
-            "&::-webkit-scrollbar": {
-              width: "4px",
-            },
-            "&::-webkit-scrollbar-track": {
-              width: "6px",
-            },
-            "&::-webkit-scrollbar-thumb": {
-              background: "#d5e3f7",
-              borderRadius: "24px",
-            },
-          }}
-        >
+      <Stack>
+        <TableContainer>
           <Table variant="striped" colorScheme="whiteAlpha">
             <Thead>
               <Tr>
@@ -94,8 +75,8 @@ export function TableCategory({
               </Tr>
             </Tfoot> */}
           </Table>
-        </Stack>
-      </TableContainer>
+        </TableContainer>
+      </Stack>
     </Box>
   );
 }

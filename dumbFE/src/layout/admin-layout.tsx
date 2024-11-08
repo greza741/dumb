@@ -21,7 +21,6 @@ import {
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 export function AdminLayout() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
   const location = useLocation();
   const userRole = useAppSelector((state) => state.auth.user?.role);
   const token = useAppSelector((state) => state.auth.token);

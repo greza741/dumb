@@ -27,7 +27,6 @@ export const Cart = () => {
   const handleCheckout = () => {
     dispatch(createTransactionAsync({ userId: userId!, cartId: cartId! }));
   };
-  console.log("check", userId, cartId);
 
   useEffect(() => {
     if (paymentUrl) {

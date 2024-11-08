@@ -9,6 +9,7 @@ import {
 } from "@/stores/cart/async";
 import { Box, Button, Flex, Image, Text, VStack } from "@chakra-ui/react";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 export const IsiCart = () => {
   const dispatch = useAppDispatch();
@@ -20,7 +21,6 @@ export const IsiCart = () => {
   //     setCartId(cartId);
   //   }
   // }, [cartId, setCartId]);
-  console.log(items);
 
   useEffect(() => {
     if (userId) {
@@ -32,7 +32,15 @@ export const IsiCart = () => {
     await dispatch(
       addItemToCartAsync({ userId: userId!, productId, quantity: 1 })
     );
-    dispatch(getCartAsync(userId!)); // Panggil kembali getCartAsync untuk memuat ulang data cart
+    toast.success("Item added to cart");
+    dispatch(getCartAsync(userId!));
+  };
+  const handleLessItem = async (productId: number) => {
+    await dispatch(
+      addItemToCartAsync({ userId: userId!, productId, quantity: -1 })
+    );
+    toast.success("Less 1 item from cart");
+    dispatch(getCartAsync(userId!));
   };
 
   const handleRemoveItem = (productId: number) => {
@@ -67,7 +75,11 @@ export const IsiCart = () => {
             <Text fontWeight="bold">{formatCurrency(item.product.price)}</Text>
           </VStack>
           <Flex alignItems={"center"}>
-            <Button bgColor={"transparent"} _hover={{ bgColor: "transparent" }}>
+            <Button
+              onClick={() => handleLessItem(item.product.id)}
+              bgColor={"transparent"}
+              _hover={{ bgColor: "transparent" }}
+            >
               <MinusIcon />
             </Button>
             <Box>

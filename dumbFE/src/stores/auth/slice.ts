@@ -19,6 +19,10 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
+    setToken: (state, action) => {
+      state.token = action.payload;
+      Cookies.set("token", action.payload);
+    },
     LOGOUT(state) {
       state.user = undefined;
       state.token = "";
@@ -30,5 +34,5 @@ export const authSlice = createSlice({
   },
 });
 
-export const { LOGOUT } = authSlice.actions;
+export const { setToken, LOGOUT } = authSlice.actions;
 export default authSlice.reducer;

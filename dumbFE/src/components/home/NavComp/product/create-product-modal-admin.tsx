@@ -56,12 +56,9 @@ const CreateProductModal: React.FC<ProductModalProps> = ({
     const file = event.target.files?.[0];
     if (file) {
       setImageFile(file);
-      console.log("Selected image file:", file);
       const reader = new FileReader();
       reader.onloadend = () => setImagePreview(reader.result as string);
       reader.readAsDataURL(file);
-    } else {
-      console.log("Selected image file:", file);
     }
   };
 
@@ -84,14 +81,11 @@ const CreateProductModal: React.FC<ProductModalProps> = ({
     formData.append("userId", `${productData.userId}`);
     if (imageFile) {
       formData.append("image", imageFile);
-      console.log(formData);
-      console.log("Image file added to FormData:", imageFile);
     } else {
       console.error("No image file found!");
     }
     await onCreate(formData);
     onClose();
-    console.log("FormData before submission:", formData);
   };
 
   return (

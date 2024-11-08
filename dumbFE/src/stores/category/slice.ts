@@ -1,10 +1,9 @@
-import { createSlice, ActionReducerMapBuilder } from "@reduxjs/toolkit";
+import { ActionReducerMapBuilder, createSlice } from "@reduxjs/toolkit";
 import {
   createCategoryAsync,
-  getAllCategoriesAsync,
-  getCategoryByIdAsync,
-  updateCategoryAsync,
   deleteCategoryAsync,
+  getAllCategoriesAsync,
+  updateCategoryAsync,
 } from "./async";
 
 export interface Category {

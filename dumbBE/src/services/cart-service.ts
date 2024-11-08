@@ -8,6 +8,7 @@ export const getCartByUserId = async (userId: number) => {
         include: {
           product: true,
         },
+        orderBy: { id: "desc" },
       },
     },
   });
@@ -61,7 +62,9 @@ export const addItemToCart = async (
 
   return prisma.cart.findUnique({
     where: { id: cart.id },
-    include: { cartItems: { include: { product: true } } },
+    include: {
+      cartItems: { include: { product: true }, orderBy: { id: "desc" } },
+    },
   });
 };
 
@@ -81,7 +84,11 @@ export const removeItemFromCart = async (userId: number, productId: number) => {
 
   return prisma.cart.findUnique({
     where: { id: cart.id },
-    include: { cartItems: { include: { product: true } } },
+    include: {
+      cartItems: {
+        include: { product: true },
+      },
+    },
   });
 };
 

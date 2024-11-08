@@ -35,7 +35,6 @@ export const addItemToCartAsync = createAsyncThunk(
         productId,
         quantity,
       });
-      toast.success("Item added to cart");
       return response.data; // Ensure API returns the updated cart data
     } catch (error) {
       console.error(error);

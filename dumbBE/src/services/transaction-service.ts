@@ -2,6 +2,7 @@ import { TransactionStatusEnum } from "@prisma/client";
 import { MidtransClient } from "midtrans-node-client";
 import { v4 as uuidv4 } from "uuid";
 import { prisma } from "../libs/prisma";
+import axios from "axios";
 
 const midtrans = new MidtransClient.Snap({
   isProduction: false,
@@ -40,7 +41,6 @@ export const createTransaction = async (userId: number, cartId: number) => {
       status: "PENDING",
     },
   });
-  console.log("Transaction created:", transaction);
 
   // Create TransactionItems for each cart item
   const transactionItems = cartItems.map((item) => ({
@@ -87,7 +87,7 @@ export const createTransaction = async (userId: number, cartId: number) => {
     item_details: itemDetails,
 
     callbacks: {
-      finish: "http://localhost:5173/",
+      finish: "http://localhost:5173/profile",
     },
   });
 
@@ -100,12 +100,45 @@ export const createTransaction = async (userId: number, cartId: number) => {
   return midtransTransaction.redirect_url;
 };
 
-export const updateTransactionStatus = async (
-  transactionId: string,
-  status: TransactionStatusEnum
-) => {
-  return await prisma.transaction.update({
-    where: { transactionId },
-    data: { status },
-  });
+// Fetch hasil transaction status dari midtrans
+
+// const mapMidtransStatusToEnum = (status: string): TransactionStatusEnum => {
+//   switch (status) {
+//     case "settlement":
+//       return "PROCESSING";
+//     case "pending":
+//       return "PENDING";
+//     case "expire":
+//       return "CANCELED";
+//     default:
+//       return "PENDING";
+//   }
+// };
+export const fetchTransactionStatus = async (transactionId: string) => {
+  const response = await axios.get(
+    `https://api.sandbox.midtrans.com/v2/${transactionId}/status`,
+    {
+      headers: {
+        Accept: "application/json",
+        Authorization:
+          "Basic U0ItTWlkLXNlcnZlci1SUWg4Zm5fVThjejl3bnluX0ZRZHhIbmY6",
+      },
+    }
+  );
+  // const transaction = await prisma.transaction.findUnique({
+  //   where: { transactionId },
+  // });
+
+  // if (!transaction) {
+  //   throw new Error(`Transaction with ID ${transactionId} not found.`);
+  // }
+  // const midtransStatus = response.data.transaction_status;
+  // const mappedStatus = mapMidtransStatusToEnum(midtransStatus);
+
+  // // Update status di database
+  // await prisma.transaction.update({
+  //   where: { transactionId },
+  //   data: { status: mappedStatus },
+  // });
+  return response.data.transaction_status;
 };
