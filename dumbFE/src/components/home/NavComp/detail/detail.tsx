@@ -51,11 +51,6 @@ export function Detail() {
             {product?.name}
           </Text>
           <Text>Stock : {product?.stock}</Text>
-          {/* <Text marginTop={"20px"}>- Wireless mouse</Text>
-          <Text>- Maish banyak fitur</Text>
-          <Text>- Maish banyak fitur</Text>
-          <Text>- Maish banyak fitur</Text>
-          <Text>- Maish banyak fitur</Text> */}
           <Text marginTop={"20px"}>{product?.description}</Text>
           <Box justifyItems={"end"} marginTop={"80px"}>
             <Text fontWeight={"bold"} fontSize={"40px"} color={"brand.orange"}>
